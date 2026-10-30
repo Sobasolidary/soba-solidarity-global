@@ -1,1 +1,173 @@
-<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Register | SOBA Solidarity</title><link rel='stylesheet' href='css/style.css'></head><body><header><h1>Member Registration</h1><nav><a href='index.html'>Home</a></nav></header><main><form id='registrationForm' class='card'><h2>Personal information</h2><label>First name<input name='first_name' required></label><label>Last name<input name='last_name' required></label><label>Email<input type='email' name='email' required></label><label>Phone<input name='phone' required></label><label>SOBA matriculation number<input name='matriculation_number' required></label><h2>Next of kin</h2><label>Full name<input name='next_of_kin_name' required></label><label>Relationship<input name='next_of_kin_relationship' required></label><label>Phone<input name='next_of_kin_phone' required></label><label>Email<input type='email' name='next_of_kin_email'></label><button type='submit'>Submit registration</button><p id='message'></p></form></main><script src='js/config.example.js'></script><script src='js/register.js'></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Register | SOBA Solidarity Global Group</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>SOBA Solidarity Global Group</h1>
+  <p>One Brotherhood, One Support System.</p>
+</header>
+
+<main>
+
+  <section class="registration-container">
+
+    <h2>Membership Registration</h2>
+
+    <p>
+      Membership is available to verified Sasse alumni.
+      Please enter your class year and matriculation number
+      to verify your alumni record before completing registration.
+    </p>
+
+    <form id="registrationForm">
+
+      <h3>Step 1 — Verify Sasse Alumni Record</h3>
+
+      <label for="classYear">Class Year</label>
+      <input
+        type="number"
+        id="classYear"
+        name="classYear"
+        min="1939"
+        max="2100"
+        required
+      >
+
+      <label for="matriculationNumber">
+        Matriculation Number
+      </label>
+
+      <input
+        type="text"
+        id="matriculationNumber"
+        name="matriculationNumber"
+        required
+      >
+
+      <button type="button" id="verifyButton">
+        Verify Alumni
+      </button>
+
+      <div id="verificationResult"></div>
+
+
+      <h3>Step 2 — Personal Information</h3>
+
+      <label for="fullName">Full Name</label>
+      <input
+        type="text"
+        id="fullName"
+        name="fullName"
+        readonly
+        required
+      >
+
+      <label for="dateOfBirth">Date of Birth</label>
+      <input
+        type="date"
+        id="dateOfBirth"
+        name="dateOfBirth"
+        required
+      >
+
+      <label for="email">Email Address</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+      >
+
+      <label for="phone">Phone Number</label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        required
+      >
+
+      <label for="address">Address</label>
+      <textarea
+        id="address"
+        name="address"
+        rows="3"
+        required
+      ></textarea>
+
+
+      <h3>Step 3 — Next of Kin</h3>
+
+      <label for="nextOfKinName">Full Name</label>
+      <input
+        type="text"
+        id="nextOfKinName"
+        name="nextOfKinName"
+        required
+      >
+
+      <label for="relationship">Relationship</label>
+      <input
+        type="text"
+        id="relationship"
+        name="relationship"
+        required
+      >
+
+      <label for="nextOfKinPhone">Phone Number</label>
+      <input
+        type="tel"
+        id="nextOfKinPhone"
+        name="nextOfKinPhone"
+        required
+      >
+
+      <label for="nextOfKinEmail">Email Address</label>
+      <input
+        type="email"
+        id="nextOfKinEmail"
+        name="nextOfKinEmail"
+      >
+
+      <label for="nextOfKinAddress">Address</label>
+      <textarea
+        id="nextOfKinAddress"
+        name="nextOfKinAddress"
+        rows="3"
+      ></textarea>
+
+
+      <button type="submit">
+        Submit Registration
+      </button>
+
+    </form>
+
+  </section>
+
+</main>
+
+<footer>
+  <p>&copy; 2026 SOBA Solidarity Global Group</p>
+</footer>
+
+
+<!-- Supabase JavaScript Library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Supabase Configuration -->
+<script src="js/config.js"></script>
+
+<!-- Registration Logic -->
+<script src="js/register.js"></script>
+
+</body>
+</html>
