@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("nextOfKinName").value.trim(),
 
           p_nok_relationship:
-            document.getElementById("nextOfKinRelationship").value.trim(),
+            document.getElementById("relationship").value.trim(),
 
           p_nok_phone:
             document.getElementById("nextOfKinPhone").value.trim(),
