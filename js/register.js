@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("registrationForm");
   const verifyButton = document.getElementById("verifyButton");
   const classYearInput = document.getElementById("classYear");
@@ -142,9 +142,11 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("An unexpected error occurred. Please try again.");
 
     } finally {
-      if (submitButton) {
-        submitButton.disabled = false;
-        submitButton.textContent = originalButtonText;
-      }
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = originalButtonText;
     }
-  });
+  }
+});
+}
+});
