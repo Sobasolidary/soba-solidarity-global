@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Dashboard | SOBA Solidarity Global Group</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .admin-container {
+      max-width: 1400px;
+      margin: 40px auto;
+      padding: 0 25px;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .dashboard-header h2 {
+      margin: 0;
+    }
+
+    .dashboard-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .dashboard-card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .dashboard-card h3 {
+      margin-top: 0;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .dashboard-card .number {
+      font-size: 32px;
+      font-weight: bold;
+      color: #102a43;
+    }
+
+    .search-box {
+      margin-bottom: 20px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccd4dd;
+      border-radius: 6px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .members-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1100px;
+    }
+
+    .members-table th,
+    .members-table td {
+      padding: 13px 15px;
+      border-bottom: 1px solid #e7ebef;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .members-table th {
+      background: #102a43;
+      color: white;
+    }
+
+    .members-table tbody tr:hover {
+      background: #f5f8fb;
+    }
+
+    .status {
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .status-active {
+      background: #d9f5e5;
+      color: #137333;
+    }
+
+    .status-pending {
+      background: #fff1cc;
+      color: #8a5a00;
+    }
+
+    .loading-message {
+      padding: 25px;
+      text-align: center;
+    }
+
+    @media (max-width: 700px) {
+      .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <h1>SOBA Solidarity Global Group</h1>
+    <p>One Brotherhood, One Support System.</p>
+  </div>
+</header>
+
+<main class="admin-container">
+
+  <div class="dashboard-header">
+    <div>
+      <h2>Admin Dashboard</h2>
+      <p>Membership Management</p>
+    </div>
+  </div>
+
+  <section class="dashboard-cards">
+
+    <div class="dashboard-card">
+      <h3>Total Members</h3>
+      <div class="number" id="totalMembers">0</div>
+    </div>
+
+    <div class="dashboard-card">
+      <h3>Active Members</h3>
+      <div class="number" id="activeMembers">0</div>
+    </div>
+
+    <div class="dashboard-card">
+      <h3>Pending Members</h3>
+      <div class="number" id="pendingMembers">0</div>
+    </div>
+
+  </section>
+
+  <div class="search-box">
+    <input
+      type="text"
+      id="memberSearch"
+      placeholder="Search by name, membership number, class year or matriculation number..."
+    >
+  </div>
+
+  <div class="table-wrapper">
+
+    <table class="members-table">
+
+      <thead>
+        <tr>
+          <th>Membership No.</th>
+          <th>Full Name</th>
+          <th>Class Year</th>
+          <th>Matriculation No.</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Next of Kin</th>
+          <th>Relationship</th>
+          <th>Status</th>
+          <th>Registration Date</th>
+        </tr>
+      </thead>
+
+      <tbody id="membersTableBody">
+
+        <tr>
+          <td colspan="10" class="loading-message">
+            Loading members...
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</main>
+
+<footer>
+  <p>&copy; 2026 SOBA Solidarity Global Group</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/admin.js"></script>
+
+</body>
+</html>
