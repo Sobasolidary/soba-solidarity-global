@@ -60,19 +60,92 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (form) {
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
+ if (form) {
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-      if (!verifiedAlumni) {
-        verificationResult.textContent =
-          "Please verify your Sasse matriculation details first.";
+    if (!verifiedAlumni) {
+      verificationResult.textContent =
+        "Please verify your Sasse matriculation details first.";
+      return;
+    }
+
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton
+      ? submitButton.textContent
+      : "Submit Registration";
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Submitting...";
+    }
+
+    try {
+      const { data, error } = await supabaseClient.rpc(
+        "register_member",
+        {
+          p_sasse_alumni_id: verifiedAlumni.alumni_id,
+          p_class_year: parseInt(classYearInput.value, 10),
+          p_matriculation_number: matriculationInput.value.trim(),
+
+          p_full_name: document.getElementById("fullName").value.trim(),
+          p_date_of_birth: document.getElementById("dateOfBirth").value,
+
+          p_email: document.getElementById("email").value.trim(),
+          p_phone: document.getElementById("phone").value.trim(),
+          p_address: document.getElementById("address").value.trim(),
+
+          p_nok_full_name:
+            document.getElementById("nextOfKinName").value.trim(),
+
+          p_nok_relationship:
+            document.getElementById("nextOfKinRelationship").value.trim(),
+
+          p_nok_phone:
+            document.getElementById("nextOfKinPhone").value.trim(),
+
+          p_nok_email:
+            document.getElementById("nextOfKinEmail").value.trim(),
+
+          p_nok_address:
+            document.getElementById("nextOfKinAddress").value.trim()
+        }
+      );
+
+      if (error) {
+        console.error(error);
+        alert("Registration failed: " + error.message);
         return;
       }
 
+      if (!data || data.length === 0) {
+        alert("Registration could not be completed.");
+        return;
+      }
+
+      const membershipNumber = data[0].membership_number;
+
       alert(
-        "Sasse verification successful. Registration submission will be enabled in the next step."
+        "Registration successful!\n\n" +
+        "Your SOBA Solidarity Global Group membership number is:\n" +
+        membershipNumber
       );
-    });
-  }
-});
+
+      form.reset();
+      verifiedAlumni = null;
+
+      verificationResult.textContent =
+        "Registration completed successfully: " + membershipNumber;
+
+    } catch (err) {
+      console.error(err);
+      alert("An unexpected error occurred. Please try again.");
+
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+      }
+    }
+  });
+}
