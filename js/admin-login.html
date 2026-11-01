@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Login | SOBA Solidarity Global Group</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+
+  <style>
+    .login-container {
+      max-width: 450px;
+      margin: 70px auto;
+      padding: 35px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+    }
+
+    .login-container h2 {
+      margin-top: 0;
+      color: #102b46;
+    }
+
+    .login-container label {
+      display: block;
+      margin-top: 18px;
+      margin-bottom: 7px;
+      font-weight: 600;
+    }
+
+    .login-container input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 13px;
+      border: 1px solid #ccd5df;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    .login-container button {
+      width: 100%;
+      margin-top: 25px;
+      padding: 13px;
+      border: none;
+      border-radius: 6px;
+      background: #102b46;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .login-container button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #loginMessage {
+      margin-top: 18px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>SOBA Solidarity Global Group</h1>
+    <p>One Brotherhood, One Support System.</p>
+  </header>
+
+  <main>
+
+    <div class="login-container">
+
+      <h2>Administrator Login</h2>
+
+      <p>
+        Authorized administrators only.
+        Please sign in to access the membership dashboard.
+      </p>
+
+      <form id="adminLoginForm">
+
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          required
+          autocomplete="email"
+        >
+
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          required
+          autocomplete="current-password"
+        >
+
+        <button type="submit" id="loginButton">
+          Sign In
+        </button>
+
+        <div id="loginMessage"></div>
+
+      </form>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 SOBA Solidarity Global Group</p>
+  </footer>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const form = document.getElementById("adminLoginForm");
+  const loginButton = document.getElementById("loginButton");
+  const loginMessage = document.getElementById("loginMessage");
+
+  form.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const password =
+      document.getElementById("password").value;
+
+    loginButton.disabled = true;
+    loginButton.textContent = "Signing in...";
+
+    loginMessage.textContent = "";
+
+    try {
+
+      const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+      if (error) {
+        loginMessage.textContent =
+          "Login failed: " + error.message;
+
+        return;
+      }
+
+      if (!data.user) {
+        loginMessage.textContent =
+          "Unable to authenticate user.";
+
+        return;
+      }
+
+
+      /*
+       * Verify that this authenticated user
+       * exists in public.admin_users.
+       */
+
+      const { data: adminRecord, error: adminError } =
+        await supabaseClient
+          .from("admin_users")
+          .select("user_id,email")
+          .eq("user_id", data.user.id)
+          .maybeSingle();
+
+
+      if (adminError) {
+
+        console.error(adminError);
+
+        await supabaseClient.auth.signOut();
+
+        loginMessage.textContent =
+          "Unable to verify administrator access.";
+
+        return;
+      }
+
+
+      if (!adminRecord) {
+
+        await supabaseClient.auth.signOut();
+
+        loginMessage.textContent =
+          "Access denied. This account is not an administrator.";
+
+        return;
+      }
+
+
+      /*
+       * Authentication successful.
+       */
+
+      loginMessage.textContent =
+        "Login successful. Opening dashboard...";
+
+      window.location.href = "admin.html";
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+      loginMessage.textContent =
+        "An unexpected error occurred. Please try again.";
+
+    }
+
+    finally {
+
+      loginButton.disabled = false;
+      loginButton.textContent = "Sign In";
+
+    }
+
+  });
+
+});
+
+</script>
+
+</body>
+</html>
