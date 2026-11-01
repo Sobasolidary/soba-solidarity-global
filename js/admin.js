@@ -222,6 +222,9 @@ function updateDashboard() {
 
 <td>${escapeHtml(registrationDate)}</td>
 `;
+  tableBody.appendChild(row);
+  });
+}      
 async function updateMemberStatus(memberId, newStatus) {
 
     const action =
