@@ -336,4 +336,3 @@ tableBody.addEventListener("click", async (event) => {
         );
     }
 });
-});
