@@ -323,7 +323,6 @@ const confirmed = confirm(
 
   await loadMembers();
 
-});
 tableBody.addEventListener("click", async (event) => {
 
     const approveButton = event.target.closest(".approve-btn");
@@ -342,4 +341,5 @@ tableBody.addEventListener("click", async (event) => {
             "rejected"
         );
     }
+});
 });
