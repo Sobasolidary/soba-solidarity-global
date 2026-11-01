@@ -188,11 +188,39 @@ function updateDashboard() {
 
         <td>${escapeHtml(nok ? nok.relationship : "")}</td>
 
-        <td>
-          <span class="status status-pending">
-            Pending
-          </span>
-        </td>
+       <td>
+    <span class="status status-${escapeHtml(member.status || "pending")}">
+        ${escapeHtml(
+          member.status === "active"
+            ? "Active"
+            : member.status === "rejected"
+            ? "Rejected"
+            : "Pending"
+        )}
+    </span>
+</td>
+
+<td>
+    ${
+      member.status === "pending" || !member.status
+        ? `
+          <button
+            class="approve-btn"
+            data-member-id="${member.id}">
+            Approve
+          </button>
+
+          <button
+            class="reject-btn"
+            data-member-id="${member.id}">
+            Reject
+          </button>
+        `
+        : member.status === "active"
+        ? `<span>Approved</span>`
+        : `<span>Rejected</span>`
+    }
+</td>
 
         <td>${escapeHtml(registrationDate)}</td>
       `;
