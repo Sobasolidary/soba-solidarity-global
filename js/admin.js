@@ -33,7 +33,30 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   console.log("Administrator authenticated:", adminRecord.email);
-  const tableBody = document.getElementById("membersTableBody");
+  const tableBody = document.getElementById("membersTableBody");  // -----------------------------------------
+  // LOGOUT
+  // -----------------------------------------
+
+  const logoutButton = document.getElementById("logoutButton");
+
+  if (logoutButton) {
+    logoutButton.addEventListener("click", async () => {
+
+      logoutButton.disabled = true;
+      logoutButton.textContent = "Signing out...";
+
+      const { error } = await supabaseClient.auth.signOut();
+
+      if (error) {
+        console.error("Logout failed:", error);
+        logoutButton.disabled = false;
+        logoutButton.textContent = "Logout";
+        return;
+      }
+
+      window.location.href = "admin-login.html";
+    });
+  }
   const totalMembers = document.getElementById("totalMembers");
   const activeMembers = document.getElementById("activeMembers");
   const pendingMembers = document.getElementById("pendingMembers");
