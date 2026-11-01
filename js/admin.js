@@ -186,17 +186,42 @@ function updateDashboard() {
 
         <td>${escapeHtml(nok ? nok.relationship : "")}</td>
 
-       <td>
+      <td>
     <span class="status status-${escapeHtml(member.status || "pending")}">
         ${escapeHtml(
-          member.status === "active"
-            ? "Active"
-            : member.status === "rejected"
-            ? "Rejected"
-            : "Pending"
+            member.status === "active"
+                ? "Active"
+                : member.status === "rejected"
+                ? "Rejected"
+                : "Pending"
         )}
     </span>
 </td>
+
+<td>
+    ${
+        !member.status || member.status === "pending"
+            ? `
+                <button
+                    class="approve-btn"
+                    data-member-id="${member.id}">
+                    Approve
+                </button>
+
+                <button
+                    class="reject-btn"
+                    data-member-id="${member.id}">
+                    Reject
+                </button>
+              `
+            : member.status === "active"
+            ? `<span>Approved</span>`
+            : `<span>Rejected</span>`
+    }
+</td>
+
+<td>${escapeHtml(registrationDate)}</td>
+`;
 async function updateMemberStatus(memberId, newStatus) {
 
     const action =
@@ -259,7 +284,39 @@ const confirmed = confirm(
       tableBody.appendChild(row);
     });
   }
+async function updateMemberStatus(memberId, newStatus) {
+    const action =
+        newStatus === "active"
+            ? "approve"
+            : "reject";
 
+    const confirmed = confirm(
+        `Are you sure you want to ${action} this member?`
+    );
+
+    if (!confirmed) return;
+
+    const { error } = await supabaseClient
+        .from("members")
+        .update({
+            status: newStatus
+        })
+        .eq("id", memberId);
+
+    if (error) {
+        console.error("Error updating member:", error);
+        alert("Unable to update member status.");
+        return;
+    }
+
+    await loadMembers();
+
+    alert(
+        newStatus === "active"
+            ? "Member approved successfully."
+            : "Member rejected."
+    );
+}
 
   function searchMembers() {
 
