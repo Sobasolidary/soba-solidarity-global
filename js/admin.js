@@ -91,14 +91,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         country,
         status,
         created_at,
-        next_of_kin (
-          full_name,
-          relationship,
-          phone,
-          email,
-          address,
-          country,
-          is_primary
+       next_of_kin (
+    full_name,
+    relationship,
+    phone,
+    email,
+    address
         )
       `)
       .order("id", { ascending: false });
