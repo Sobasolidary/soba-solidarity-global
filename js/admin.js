@@ -222,9 +222,55 @@ async function updateMemberStatus(memberId, newStatus) {
             ? "approve"
             : "reject";
 
-const confirmed = confirm(
-  "Are you sure you want to " + action + " this member?"
-);
+    const confirmed = confirm(
+        "Are you sure you want to " + action + " this member?"
+    );
+
+    if (!confirmed) return;
+
+    // APPROVE MEMBER
+    if (newStatus === "active") {
+
+        const { data, error } = await supabaseClient.rpc(
+            "approve_member",
+            {
+                p_member_id: memberId
+            }
+        );
+
+        if (error) {
+            console.error("Error approving member:", error);
+            alert("Unable to approve member: " + error.message);
+            return;
+        }
+
+        await loadMembers();
+
+        alert(
+            "Member approved successfully.\n\nMembership Number: " + data
+        );
+
+        return;
+    }
+
+    // REJECT MEMBER
+    const { error } = await supabaseClient
+        .from("members")
+        .update({
+            status: "rejected"
+        })
+        .eq("id", memberId);
+
+    if (error) {
+        console.error("Error rejecting member:", error);
+        alert("Unable to reject member.");
+        return;
+    }
+
+    await loadMembers();
+
+    alert("Member rejected successfully.");
+}
 
     if (!confirmed) return;
 
