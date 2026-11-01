@@ -75,7 +75,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     `;
 
     const { data, error } = await supabaseClient
-      .from("members")
+    .from("members")
+    .select("*")
+    .order("id", { ascending: false });
+
+console.log("MEMBERS DATA:", data);
+console.log("MEMBERS ERROR:", error);
       .select(`
         id,
         membership_number,
