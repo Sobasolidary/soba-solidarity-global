@@ -74,9 +74,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       </tr>
     `;
 
-    const { data, error } = await supabaseClient
+   const { data, error } = await supabaseClient
     .from("members")
-    .select("*")
+    .select(`
+        *,
+        next_of_kin (
+            full_name,
+            relationship,
+            phone,
+            email,
+            address,
+            country,
+            is_primary
+        )
+    `)
     .order("id", { ascending: false });
 
 console.log("MEMBERS DATA:", data);
