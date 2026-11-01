@@ -326,3 +326,22 @@ async function updateMemberStatus(memberId, newStatus) {
   await loadMembers();
 
 });
+tableBody.addEventListener("click", async (event) => {
+
+    const approveButton = event.target.closest(".approve-btn");
+    const rejectButton = event.target.closest(".reject-btn");
+
+    if (approveButton) {
+        await updateMemberStatus(
+            approveButton.dataset.memberId,
+            "active"
+        );
+    }
+
+    if (rejectButton) {
+        await updateMemberStatus(
+            rejectButton.dataset.memberId,
+            "rejected"
+        );
+    }
+});
