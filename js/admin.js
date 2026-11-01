@@ -317,9 +317,6 @@ const confirmed = confirm(
     searchInput.addEventListener("input", searchMembers);
   }
 
-
-  await loadMembers();
-
 tableBody.addEventListener("click", async (event) => {
 
     const approveButton = event.target.closest(".approve-btn");
