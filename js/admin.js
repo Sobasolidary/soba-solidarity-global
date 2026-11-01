@@ -317,4 +317,6 @@ tableBody.addEventListener("click", async (event) => {
         );
     }
 });
+// Load members when dashboard opens
+await loadMembers();
 });
