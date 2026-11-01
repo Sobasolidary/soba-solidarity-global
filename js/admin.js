@@ -81,31 +81,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 console.log("MEMBERS DATA:", data);
 console.log("MEMBERS ERROR:", error);
-      .select(`
-        id,
-        membership_number,
-        sasse_alumni_id,
-        class_year,
-        matriculation_number,
-        full_name,
-        date_of_birth,
-        email,
-        phone,
-        address,
-        city,
-        country,
-        status,
-        created_at,
-       next_of_kin (
-    full_name,
-    relationship,
-    phone,
-    email,
-    address
-        )
-      `)
-      .order("id", { ascending: false });
-
+    
     if (error) {
       console.error("Error loading members:", error);
 
