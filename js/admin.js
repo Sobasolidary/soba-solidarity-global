@@ -199,7 +199,40 @@ function updateDashboard() {
         )}
     </span>
 </td>
+async function updateMemberStatus(memberId, newStatus) {
 
+    const action =
+        newStatus === "active"
+            ? "approve"
+            : "reject";
+
+    const confirmed = confirm(
+        `Are you sure you want to ${action} this member?`
+    );
+
+    if (!confirmed) return;
+
+    const { error } = await supabaseClient
+        .from("members")
+        .update({
+            status: newStatus
+        })
+        .eq("id", memberId);
+
+    if (error) {
+        console.error("Error updating member:", error);
+        alert("Unable to update member status.");
+        return;
+    }
+
+    await loadMembers();
+
+    alert(
+        newStatus === "active"
+            ? "Member approved successfully."
+            : "Member rejected."
+    );
+}
 <td>
     ${
       member.status === "pending" || !member.status
