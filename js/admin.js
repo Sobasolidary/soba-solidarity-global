@@ -272,31 +272,6 @@ async function updateMemberStatus(memberId, newStatus) {
     alert("Member rejected successfully.");
 }
 
-    if (!confirmed) return;
-
-    const { error } = await supabaseClient
-        .from("members")
-        .update({
-            status: newStatus
-        })
-        .eq("id", memberId);
-
-    if (error) {
-        console.error("Error updating member:", error);
-        alert("Unable to update member status.");
-        return;
-    }
-
-    await loadMembers();
-
-    alert(
-        newStatus === "active"
-            ? "Member approved successfully."
-            : "Member rejected."
-    );
-}
-
-
   function searchMembers() {
 
     const searchTerm =
