@@ -123,21 +123,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     displayMembers(members);
   }
 
+function updateDashboard() {
+  totalMembers.textContent = members.length;
 
-  function updateDashboard() {
+  const activeCount = members.filter(
+    member => member.status === "active"
+  ).length;
 
-    totalMembers.textContent = members.length;
+  const pendingCount = members.filter(
+    member => member.status === "pending"
+  ).length;
 
-    /*
-      We have not yet created membership/payment
-      status fields in Supabase.
-
-      Therefore all registered members are temporarily
-      counted as pending.
-    */
-
-    activeMembers.textContent = "0";
-    pendingMembers.textContent = members.length;
+  activeMembers.textContent = activeCount;
+  pendingMembers.textContent = pendingCount;
+}
   }
 
 
