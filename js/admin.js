@@ -89,6 +89,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         address,
         city,
         country,
+        status,
         created_at,
         next_of_kin (
           full_name,
