@@ -1,5 +1,38 @@
 document.addEventListener("DOMContentLoaded", async () => {
+  // -----------------------------------------
+  // ADMIN AUTHENTICATION CHECK
+  // -----------------------------------------
 
+  const {
+    data: { session },
+    error: sessionError
+  } = await supabaseClient.auth.getSession();
+
+  if (sessionError || !session) {
+    window.location.href = "admin-login.html";
+    return;
+  }
+
+  const user = session.user;
+
+  // Confirm that the logged-in user is an authorized administrator
+  const { data: adminRecord, error: adminError } =
+    await supabaseClient
+      .from("admin_users")
+      .select("user_id, email")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+  if (adminError || !adminRecord) {
+    console.error("Administrator authorization failed:", adminError);
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href = "admin-login.html";
+    return;
+  }
+
+  console.log("Administrator authenticated:", adminRecord.email);
   const tableBody = document.getElementById("membersTableBody");
   const totalMembers = document.getElementById("totalMembers");
   const activeMembers = document.getElementById("activeMembers");
