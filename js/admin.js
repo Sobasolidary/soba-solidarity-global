@@ -205,8 +205,8 @@ async function updateMemberStatus(memberId, newStatus) {
             : "reject";
 
     const confirmed = confirm(
-        `Are you sure you want to ${action} this member?`
-    );
+  `Are you sure you want to ${action} this member?`
+);
 
     if (!confirmed) return;
 
