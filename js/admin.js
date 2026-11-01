@@ -137,8 +137,6 @@ function updateDashboard() {
   activeMembers.textContent = activeCount;
   pendingMembers.textContent = pendingCount;
 }
-  }
-
 
   function displayMembers(memberList) {
 
