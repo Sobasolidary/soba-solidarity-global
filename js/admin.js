@@ -313,12 +313,11 @@ const confirmed = confirm(
   }
 
 
-  if (searchInput) {
+if (searchInput) {
     searchInput.addEventListener("input", searchMembers);
-  }
+}
 
 tableBody.addEventListener("click", async (event) => {
-
     const approveButton = event.target.closest(".approve-btn");
     const rejectButton = event.target.closest(".reject-btn");
 
