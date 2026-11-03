@@ -89,9 +89,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         // ----------------------------------------------------
 
         const params = new URLSearchParams(window.location.search);
-        const memberId = params.get("id");
+        const memberId = Number(params.get("id"));
 
-        if (!memberId || !/^\d+$/.test(memberId)) {
+        if (!Number.isInteger(memberId) || memberId <= 0) {
             showError("No valid member was selected.");
             return;
         }
