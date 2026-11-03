@@ -139,11 +139,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
 
         displayValue(
-            "memberId",
-            member.id
-        );
-
-        displayValue(
             "registrationDate",
             formatDate(member.created_at)
         );
