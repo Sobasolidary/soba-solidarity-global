@@ -1,3 +1,6 @@
+let currentMember = null;
+let currentNextOfKin = null;
+
 document.addEventListener("DOMContentLoaded", async () => {
 
     const profileMessage = document.getElementById("profileMessage");
@@ -128,6 +131,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (nokError) {
             console.error("Next of kin error:", nokError);
         }
+
+        // Store loaded data for the Edit Member form
+        currentMember = member;
+        currentNextOfKin = nextOfKin;
 
         // ----------------------------------------------------
         // 6. Membership information
@@ -262,37 +269,45 @@ const cancelEditButton = document.getElementById("cancelEditButton");
 
 editMemberButton.addEventListener("click", () => {
 
+    if (!currentMember) {
+        alert("Member information has not finished loading.");
+        return;
+    }
+
     // Load current member information into edit form
     document.getElementById("editFullName").value =
-        member.full_name || "";
+        currentMember.full_name || "";
 
     document.getElementById("editDateOfBirth").value =
-        member.date_of_birth || "";
+        currentMember.date_of_birth || "";
 
     document.getElementById("editEmail").value =
-        member.email || "";
+        currentMember.email || "";
 
     document.getElementById("editPhone").value =
-        member.phone || "";
+        currentMember.phone || "";
 
     document.getElementById("editAddress").value =
-        member.address || "";
+        currentMember.address || "";
 
     // Load next of kin information
-    document.getElementById("editNokFullName").value =
-        nextOfKin?.full_name || "";
+    if (currentNextOfKin) {
 
-    document.getElementById("editNokRelationship").value =
-        nextOfKin?.relationship || "";
+        document.getElementById("editNokFullName").value =
+            currentNextOfKin.full_name || "";
 
-    document.getElementById("editNokPhone").value =
-        nextOfKin?.phone || "";
+        document.getElementById("editNokRelationship").value =
+            currentNextOfKin.relationship || "";
 
-    document.getElementById("editNokEmail").value =
-        nextOfKin?.email || "";
+        document.getElementById("editNokPhone").value =
+            currentNextOfKin.phone || "";
 
-    document.getElementById("editNokAddress").value =
-        nextOfKin?.address || "";
+        document.getElementById("editNokEmail").value =
+            currentNextOfKin.email || "";
+
+        document.getElementById("editNokAddress").value =
+            currentNextOfKin.address || "";
+    }
 
     // Hide profile and show edit form
     profileContent.style.display = "none";
