@@ -251,5 +251,59 @@ document.addEventListener("DOMContentLoaded", async () => {
             "An error occurred while loading the member profile."
         );
     }
+    
+// ------------------------------------------
+// 11. Edit member form
+// ------------------------------------------
 
+const editMemberButton = document.getElementById("editMemberButton");
+const editMemberForm = document.getElementById("editMemberForm");
+const cancelEditButton = document.getElementById("cancelEditButton");
+
+editMemberButton.addEventListener("click", () => {
+
+    // Load current member information into edit form
+    document.getElementById("editFullName").value =
+        member.full_name || "";
+
+    document.getElementById("editDateOfBirth").value =
+        member.date_of_birth || "";
+
+    document.getElementById("editEmail").value =
+        member.email || "";
+
+    document.getElementById("editPhone").value =
+        member.phone || "";
+
+    document.getElementById("editAddress").value =
+        member.address || "";
+
+    // Load next of kin information
+    document.getElementById("editNokFullName").value =
+        nextOfKin?.full_name || "";
+
+    document.getElementById("editNokRelationship").value =
+        nextOfKin?.relationship || "";
+
+    document.getElementById("editNokPhone").value =
+        nextOfKin?.phone || "";
+
+    document.getElementById("editNokEmail").value =
+        nextOfKin?.email || "";
+
+    document.getElementById("editNokAddress").value =
+        nextOfKin?.address || "";
+
+    // Hide profile and show edit form
+    profileContent.style.display = "none";
+    editMemberForm.style.display = "block";
+});
+
+cancelEditButton.addEventListener("click", () => {
+
+    // Hide edit form and return to profile
+    editMemberForm.style.display = "none";
+    profileContent.style.display = "block";
+});
+    
 });
