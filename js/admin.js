@@ -160,9 +160,23 @@ function updateDashboard() {
       const row = document.createElement("tr");
 
       row.innerHTML = `
-        <td><strong>${escapeHtml(member.membership_number || "")}</strong></td>
+        <td>
+    ${
+        member.membership_number
+            ? `<a href="member-profile.html?id=${encodeURIComponent(member.id)}"
+                  class="member-profile-link">
+                  ${escapeHtml(member.membership_number)}
+               </a>`
+            : "—"
+    }
+</td>
 
-        <td>${escapeHtml(member.full_name || "")}</td>
+<td>
+    <a href="member-profile.html?id=${encodeURIComponent(member.id)}"
+       class="member-profile-link">
+        ${escapeHtml(member.full_name)}
+    </a>
+</td>
 
         <td>${escapeHtml(member.class_year || "")}</td>
 
