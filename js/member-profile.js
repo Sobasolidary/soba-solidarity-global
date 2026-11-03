@@ -321,4 +321,87 @@ cancelEditButton.addEventListener("click", () => {
     profileContent.style.display = "block";
 });
     
+// ---------------------------------------------
+// 12. Save edited member information
+// ---------------------------------------------
+
+editMemberForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    try {
+
+        // Get updated member information
+        const updatedMember = {
+            full_name: document.getElementById("editFullName").value.trim(),
+            date_of_birth: document.getElementById("editDateOfBirth").value || null,
+            email: document.getElementById("editEmail").value.trim(),
+            phone: document.getElementById("editPhone").value.trim(),
+            address: document.getElementById("editAddress").value.trim()
+        };
+
+        // Update member in Supabase
+        const { error: memberUpdateError } = await supabaseClient
+            .from("members")
+            .update(updatedMember)
+            .eq("id", memberId);
+
+        if (memberUpdateError) {
+            throw memberUpdateError;
+        }
+
+
+        // ---------------------------------------------
+        // Update Next of Kin
+        // ---------------------------------------------
+
+        const updatedNextOfKin = {
+            full_name: document.getElementById("editNokFullName").value.trim(),
+            relationship: document.getElementById("editNokRelationship").value.trim(),
+            phone: document.getElementById("editNokPhone").value.trim(),
+            email: document.getElementById("editNokEmail").value.trim(),
+            address: document.getElementById("editNokAddress").value.trim()
+        };
+
+        if (currentNextOfKin) {
+
+            const { error: nokUpdateError } = await supabaseClient
+                .from("next_of_kin")
+                .update(updatedNextOfKin)
+                .eq("member_id", memberId);
+
+            if (nokUpdateError) {
+                throw nokUpdateError;
+            }
+
+        } else {
+
+            // Create Next of Kin if none exists
+            const { error: nokInsertError } = await supabaseClient
+                .from("next_of_kin")
+                .insert({
+                    member_id: memberId,
+                    ...updatedNextOfKin
+                });
+
+            if (nokInsertError) {
+                throw nokInsertError;
+            }
+        }
+
+
+        alert("Member updated successfully.");
+
+        // Reload page so updated information is displayed
+        window.location.reload();
+
+    } catch (error) {
+
+        console.error("Update member error:", error);
+
+        alert(
+            "Unable to update member: " +
+            (error.message || "Unknown error")
+        );
+    }
+});    
 });
