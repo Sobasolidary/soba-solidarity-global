@@ -223,11 +223,14 @@ function updateDashboard() {
 
 
 <td>
-    <button
-        class="payment-btn"
-        data-member-id="${member.id}">
-        Confirm Payment
-    </button>
+   <button
+  class="confirm-payment-btn"
+  data-member-id="${member.id}"
+  ${member.payment_status === "paid" ? "disabled" : ""}>
+  ${member.payment_status === "paid"
+    ? "Payment Confirmed"
+    : "Confirm Payment"}
+</button>
 
     ${
         !member.status || member.status === "pending"
