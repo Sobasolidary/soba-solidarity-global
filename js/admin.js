@@ -197,7 +197,18 @@ function updateDashboard() {
         <td>${escapeHtml(nok ? nok.full_name : "")}</td>
 
         <td>${escapeHtml(nok ? nok.relationship : "")}</td>
+        
+      <td>
+  <span class="status status-${escapeHtml(member.verification_status || "pending")}">
+    ${member.verification_status === "verified" ? "Verified" : "Pending"}
+  </span>
+</td>
 
+<td>
+  <span class="status status-${escapeHtml(member.payment_status || "pending")}">
+    ${member.payment_status === "paid" ? "Paid" : "Pending"}
+  </span>
+</td>
       <td>
     <span class="status status-${escapeHtml(member.status || "pending")}">
         ${escapeHtml(
