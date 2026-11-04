@@ -349,12 +349,36 @@ tableBody.addEventListener("click", async (event) => {
     const approveButton = event.target.closest(".approve-btn");
     const rejectButton = event.target.closest(".reject-btn");
 
-    if (approveButton) {
-        await updateMemberStatus(
-            approveButton.dataset.memberId,
-            "active"
-        );
+if (approveButton) {
+    const memberId = Number(
+        approveButton.dataset.memberId
+    );
+
+    if (!Number.isSafeInteger(memberId) || memberId <= 0) {
+        alert("Invalid member ID.");
+        return;
     }
+
+    if (!confirm(
+        "Activate this member? Alumni verification and payment confirmation are required."
+    )) {
+        return;
+    }
+
+    const { data, error } = await supabaseClient.rpc(
+        "activate_member",
+        { p_member_id: memberId }
+    );
+
+    if (error) {
+        alert("Unable to activate member: " + error.message);
+        return;
+    }
+
+    alert("Member activated successfully. Membership number: " + data);
+    await loadMembers();
+}
+
 
     if (rejectButton) {
         await updateMemberStatus(
