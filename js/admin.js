@@ -232,11 +232,17 @@ function updateDashboard() {
     ${
         !member.status || member.status === "pending"
         ? `
-            <button
-                class="approve-btn"
-                data-member-id="${member.id}">
-                Approve & Activate
-            </button>
+    <button
+  class="approve-btn"
+  data-member-id="${member.id}"
+  ${
+    member.verification_status === "verified" &&
+    member.payment_status === "paid"
+      ? ""
+      : "disabled"
+  }>
+  Approve & Activate
+  </button>
 
             <button
                 class="reject-btn"
