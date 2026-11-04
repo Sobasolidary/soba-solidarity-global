@@ -107,10 +107,18 @@ console.log("MEMBERS ERROR:", error);
       return;
     }
 
-    members = data || [];
+  members = (data || []).map(member => ({
+    ...member,
+    status:
+        member.membership_status === "active"
+            ? "active"
+            : member.membership_status === "rejected"
+            ? "rejected"
+            : "pending"
+}));
 
-    updateDashboard();
-    displayMembers(members);
+updateDashboard();
+displayMembers(members);
   }
 
 function updateDashboard() {
@@ -202,27 +210,35 @@ function updateDashboard() {
     </span>
 </td>
 
+
 <td>
+    <button
+        class="payment-btn"
+        data-member-id="${member.id}">
+        Confirm Payment
+    </button>
+
     ${
         !member.status || member.status === "pending"
-            ? `
-                <button
-                    class="approve-btn"
-                    data-member-id="${member.id}">
-                    Approve
-                </button>
+        ? `
+            <button
+                class="approve-btn"
+                data-member-id="${member.id}">
+                Approve & Activate
+            </button>
 
-                <button
-                    class="reject-btn"
-                    data-member-id="${member.id}">
-                    Reject
-                </button>
-              `
-            : member.status === "active"
-            ? `<span>Approved</span>`
-            : `<span>Rejected</span>`
+            <button
+                class="reject-btn"
+                data-member-id="${member.id}">
+                Reject
+            </button>
+          `
+        : member.status === "active"
+        ? `<span>Approved</span>`
+        : `<span>Rejected</span>`
     }
 </td>
+
 
 <td>${escapeHtml(registrationDate)}</td>
 `;
@@ -347,7 +363,39 @@ if (searchInput) {
 
 tableBody.addEventListener("click", async (event) => {
     const approveButton = event.target.closest(".approve-btn");
+    const paymentButton = event.target.closest(".payment-btn");
     const rejectButton = event.target.closest(".reject-btn");
+
+if (paymentButton) {
+    const memberId = Number(
+        paymentButton.dataset.memberId
+    );
+
+    if (!Number.isSafeInteger(memberId) || memberId <= 0) {
+        alert("Invalid member ID.");
+        return;
+    }
+
+    if (!confirm(
+        "Have you verified receipt of the €25 registration payment?"
+    )) {
+        return;
+    }
+
+    const { data, error } = await supabaseClient.rpc(
+        "confirm_member_payment",
+        { p_member_id: memberId }
+    );
+
+    if (error) {
+        alert("Unable to confirm payment: " + error.message);
+        return;
+    }
+
+    alert(data);
+    await loadMembers();
+    return;
+}
 
 if (approveButton) {
     const memberId = Number(
