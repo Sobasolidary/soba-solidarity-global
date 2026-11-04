@@ -340,10 +340,19 @@ editMemberForm.addEventListener("submit", async (event) => {
         };
 
         // Update member in Supabase
+        
+        const saveMemberId = Number(
+    new URLSearchParams(window.location.search).get("id")
+);
+
+if (!Number.isSafeInteger(saveMemberId) || saveMemberId <= 0) {
+    alert("Invalid Member ID.");
+    return;
+}
         const { error: memberUpdateError } = await supabaseClient
             .from("members")
             .update(updatedMember)
-            .eq("id", memberId);
+            .eq("id", saveMemberId);
 
         if (memberUpdateError) {
             throw memberUpdateError;
@@ -367,7 +376,7 @@ editMemberForm.addEventListener("submit", async (event) => {
             const { error: nokUpdateError } = await supabaseClient
                 .from("next_of_kin")
                 .update(updatedNextOfKin)
-                .eq("member_id", memberId);
+                .eq("member_id", saveMemberId)
 
             if (nokUpdateError) {
                 throw nokUpdateError;
