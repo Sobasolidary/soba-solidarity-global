@@ -429,7 +429,55 @@ if (paymentButton) {
     await loadMembers();
     return;
 }
+if (verifyButton) {
+    const memberId = Number(verifyButton.dataset.memberId);
 
+    if (!Number.isSafeInteger(memberId) || memberId <= 0) {
+        alert("Invalid member ID.");
+        return;
+    }
+
+    if (!confirm("Verify this member against the Sasse alumni database?")) {
+        return;
+    }
+
+    const { data: member, error: fetchError } = await supabaseClient
+        .from("members")
+        .select("class_year, matriculation_number")
+        .eq("id", memberId)
+        .single();
+
+    if (fetchError) {
+        alert("Unable to retrieve member: " + fetchError.message);
+        return;
+    }
+
+    const { data, error } = await supabaseClient.rpc(
+        "verify_sasse_alumni",
+        {
+            p_class_year: member.class_year,
+            p_matriculation_number: String(member.matriculation_number)
+        }
+    );
+
+    if (error) {
+        alert("Alumni verification failed: " + error.message);
+        return;
+    }
+
+    const match = Array.isArray(data) ? data[0] : null;
+
+    if (!match?.verified) {
+        alert("No matching alumni record found. Manual review required.");
+        return;
+    }
+
+    alert("Alumni record found: " + match.full_name +
+          ". Verification result confirmed; membership status unchanged.");
+
+    await loadMembers();
+    return;
+}
 if (approveButton) {
     const memberId = Number(
         approveButton.dataset.memberId
