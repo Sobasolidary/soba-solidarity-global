@@ -395,6 +395,7 @@ if (searchInput) {
 
 tableBody.addEventListener("click", async (event) => {
     const approveButton = event.target.closest(".approve-btn");
+    const verifyButton = event.target.closest(".verify-alumni-btn");
     const paymentButton = event.target.closest(".payment-btn");
     const rejectButton = event.target.closest(".reject-btn");
     const verifyButton = event.target.closest(".verify-btn");
