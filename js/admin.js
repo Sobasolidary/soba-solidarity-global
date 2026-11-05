@@ -198,10 +198,22 @@ function updateDashboard() {
 
         <td>${escapeHtml(nok ? nok.relationship : "")}</td>
         
-      <td>
+<td>
   <span class="status status-${escapeHtml(member.verification_status || "pending")}">
     ${member.verification_status === "verified" ? "Verified" : "Pending"}
   </span>
+
+  ${
+    member.verification_status !== "verified"
+      ? `
+        <button
+          class="verify-alumni-btn"
+          data-member-id="${member.id}">
+          Verify Alumni
+        </button>
+      `
+      : ""
+  }
 </td>
 
 <td>
