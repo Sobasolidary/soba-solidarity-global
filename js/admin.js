@@ -397,6 +397,7 @@ tableBody.addEventListener("click", async (event) => {
     const approveButton = event.target.closest(".approve-btn");
     const paymentButton = event.target.closest(".payment-btn");
     const rejectButton = event.target.closest(".reject-btn");
+    const verifyButton = event.target.closest(".verify-btn");
 
 if (paymentButton) {
     const memberId = Number(
