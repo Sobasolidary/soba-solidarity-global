@@ -25,7 +25,7 @@
       {
         p_class_year: classYear,
         p_matriculation_number: matriculationNumber
-      }
+      } 
     );
 
     if (error) {
