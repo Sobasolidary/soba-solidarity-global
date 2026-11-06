@@ -443,7 +443,7 @@ if (verifyButton) {
 
     const { data: member, error: fetchError } = await supabaseClient
         .from("members")
-        .select("class_year, matriculation_number")
+       .select("class_year, matriculation_number, sasse_alumni_id")
         .eq("id", memberId)
         .single();
 
@@ -472,11 +472,35 @@ if (verifyButton) {
         return;
     }
 
-    alert("Alumni record found: " + match.full_name +
-          ". Verification result confirmed; membership status unchanged.");
+   // Confirm the matched alumni record belongs to this member
+if (
+  Number(match.alumni_id) !== Number(member.sasse_alumni_id)
+) {
+  alert("Alumni record mismatch. Manual review required.");
+  return;
+}
 
-    await loadMembers();
-    return;
+// Save verification status
+const { data: updatedMember, error: updateError } =
+  await supabaseClient
+    .from("members")
+    .update({
+      verification_status: "verified"
+    })
+    .eq("id", memberId)
+    .eq("sasse_alumni_id", match.alumni_id)
+    .select("id, verification_status")
+    .single();
+
+if (updateError) {
+  alert("Unable to update verification: " + updateError.message);
+  return;
+}
+
+alert("Alumni verified successfully.");
+
+await loadMembers();
+return;
 }
 if (approveButton) {
     const memberId = Number(
