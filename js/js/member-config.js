@@ -2,7 +2,7 @@
 window.SOBA_MEMBER_CONFIG = {
   supabaseUrl: "https://kzzctsvelxdafjhlpant.supabase.co",
 
-  supabaseAnonKey: "PASTE_YOUR_PUBLISHABLE_KEY_HERE",
+  supabaseAnonKey: "sb_publishable_opppaJSkpSEoJSYDhT2Mlw_J4eHch8I",
 
   siteUrl:
     "https://sobasolidarity.github.io/soba-solidarity-global/",
