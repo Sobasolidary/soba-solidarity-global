@@ -1,0 +1,2 @@
+import {supabase,page,notice,busy,$} from './member-common.js';
+$('#reset-form').addEventListener('submit',async(e)=>{e.preventDefault();const btn=$('#reset-button');busy(btn,true);try{await supabase.auth.resetPasswordForEmail($('#email').value.trim(),{redirectTo:page('set-password.html')});notice('If this email has an account, password reset instructions will be sent.');}catch(err){console.error(err);notice('Unable to process request at this time.',true);}finally{busy(btn,false);}});
