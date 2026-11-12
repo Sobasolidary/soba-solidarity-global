@@ -5,8 +5,8 @@ window.SOBA_MEMBER_CONFIG = {
   supabaseAnonKey: "sb_publishable_opppaJSkpSEoJSYDhT2Mlw_J4eHch8I",
 
   siteUrl:
-    "https://sobasolidarity.github.io/soba-solidarity-global/",
-
+    "https://sobasolidary.github.io/soba-solidarity-global/",
+    
   pages: {
     login: "member-login.html",
     dashboard: "member-dashboard.html",
