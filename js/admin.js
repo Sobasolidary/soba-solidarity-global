@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", async () => {
   // -----------------------------------------
   // ADMIN AUTHENTICATION CHECK
@@ -33,7 +34,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   console.log("Administrator authenticated:", adminRecord.email);
-  const tableBody = document.getElementById("membersTableBody");  // -----------------------------------------
+  const tableBody = document.getElementById("membersTableBody");
+
+  // -----------------------------------------
   // LOGOUT
   // -----------------------------------------
 
@@ -41,7 +44,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (logoutButton) {
     logoutButton.addEventListener("click", async () => {
-
       logoutButton.disabled = true;
       logoutButton.textContent = "Signing out...";
 
@@ -57,6 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       window.location.href = "admin-login.html";
     });
   }
+
   const totalMembers = document.getElementById("totalMembers");
   const activeMembers = document.getElementById("activeMembers");
   const pendingMembers = document.getElementById("pendingMembers");
@@ -65,96 +68,89 @@ document.addEventListener("DOMContentLoaded", async () => {
   let members = [];
 
   async function loadMembers() {
-
     tableBody.innerHTML = `
       <tr>
-        <td colspan="10" class="loading-message">
+        <td colspan="13" class="loading-message">
           Loading members...
         </td>
       </tr>
     `;
 
-   const { data, error } = await supabaseClient
-    .from("members")
-    .select(`
+    const { data, error } = await supabaseClient
+      .from("members")
+      .select(`
         *,
         next_of_kin (
-            full_name,
-            relationship,
-            phone,
-            email,
-            address,
-            country,
-            is_primary
+          full_name,
+          relationship,
+          phone,
+          email,
+          address,
+          country,
+          is_primary
         )
-    `)
-    .order("id", { ascending: false });
+      `)
+      .order("id", { ascending: false });
 
-console.log("MEMBERS DATA:", data);
-console.log("MEMBERS ERROR:", error);
-    
+    console.log("MEMBERS DATA:", data);
+    console.log("MEMBERS ERROR:", error);
+
     if (error) {
       console.error("Error loading members:", error);
-
       tableBody.innerHTML = `
         <tr>
-          <td colspan="10" class="loading-message">
+          <td colspan="13" class="loading-message">
             Unable to load members.
           </td>
         </tr>
       `;
-
       return;
     }
 
-  members = (data || []).map(member => ({
-    ...member,
-    status:
+    members = (data || []).map(member => ({
+      ...member,
+      status:
         member.membership_status === "active"
-            ? "active"
-            : member.membership_status === "rejected"
-            ? "rejected"
-            : "pending"
-}));
+          ? "active"
+          : member.membership_status === "rejected"
+          ? "rejected"
+          : "pending"
+    }));
 
-updateDashboard();
-displayMembers(members);
+    updateDashboard();
+    displayMembers(members);
   }
 
-function updateDashboard() {
-  totalMembers.textContent = members.length;
+  function updateDashboard() {
+    totalMembers.textContent = members.length;
 
-  const activeCount = members.filter(
-    member => member.status === "active"
-  ).length;
+    const activeCount = members.filter(
+      member => member.status === "active"
+    ).length;
 
-  const pendingCount = members.filter(
-    member => member.status === "pending"
-  ).length;
+    const pendingCount = members.filter(
+      member => member.status === "pending"
+    ).length;
 
-  activeMembers.textContent = activeCount;
-  pendingMembers.textContent = pendingCount;
-}
+    activeMembers.textContent = activeCount;
+    pendingMembers.textContent = pendingCount;
+  }
 
   function displayMembers(memberList) {
-
     tableBody.innerHTML = "";
 
     if (!memberList.length) {
-
       tableBody.innerHTML = `
         <tr>
-          <td colspan="10" class="loading-message">
+          <td colspan="13" class="loading-message">
             No members found.
           </td>
         </tr>
       `;
-
       return;
     }
 
     memberList.forEach(member => {
-
       const nok =
         member.next_of_kin &&
         member.next_of_kin.length > 0
@@ -169,173 +165,184 @@ function updateDashboard() {
 
       row.innerHTML = `
         <td>
-    ${
-        member.membership_number
-            ? `<a href="member-profile.html?id=${encodeURIComponent(member.id)}"
-                  class="member-profile-link">
-                  ${escapeHtml(member.membership_number)}
-               </a>`
-            : "—"
-    }
-</td>
+          ${
+            member.membership_number
+              ? `<a href="member-profile.html?id=${encodeURIComponent(member.id)}"
+                    class="member-profile-link">
+                    ${escapeHtml(member.membership_number)}
+                 </a>`
+              : "—"
+          }
+        </td>
 
-<td>
-    <a href="member-profile.html?id=${encodeURIComponent(member.id)}"
-       class="member-profile-link">
-        ${escapeHtml(member.full_name)}
-    </a>
-</td>
+        <td>
+          <a href="member-profile.html?id=${encodeURIComponent(member.id)}"
+             class="member-profile-link">
+            ${escapeHtml(member.full_name)}
+          </a>
+        </td>
 
         <td>${escapeHtml(member.class_year || "")}</td>
-
         <td>${escapeHtml(member.matriculation_number || "")}</td>
-
         <td>${escapeHtml(member.email || "")}</td>
-
         <td>${escapeHtml(member.phone || "")}</td>
-
         <td>${escapeHtml(nok ? nok.full_name : "")}</td>
-
         <td>${escapeHtml(nok ? nok.relationship : "")}</td>
-        
-<td>
-  <span class="status status-${escapeHtml(member.verification_status || "pending")}">
-    ${member.verification_status === "verified" ? "Verified" : "Pending"}
-  </span>
 
-  ${
-    member.verification_status !== "verified"
-      ? `
-        <button
-          class="verify-alumni-btn"
-          data-member-id="${member.id}">
-          Verify Alumni
-        </button>
-      `
-      : ""
-  }
-</td>
+        <td>
+          <span class="status status-${escapeHtml(member.verification_status || "pending")}">
+            ${
+              member.verification_status === "verified"
+                ? "Verified"
+                : "Pending"
+            }
+          </span>
 
-<td>
-  <span class="status status-${escapeHtml(member.payment_status || "pending")}">
-    ${member.payment_status === "paid" ? "Paid" : "Pending"}
-  </span>
-</td>
-      <td>
-    <span class="status status-${escapeHtml(member.status || "pending")}">
-        ${escapeHtml(
-            member.status === "active"
+          ${
+            member.verification_status !== "verified"
+              ? `
+                <button
+                  class="verify-alumni-btn"
+                  data-member-id="${member.id}">
+                  Verify Alumni
+                </button>
+              `
+              : ""
+          }
+        </td>
+
+        <td>
+          <span class="status status-${escapeHtml(member.payment_status || "pending")}">
+            ${
+              member.payment_status === "paid"
+                ? "Paid"
+                : "Pending"
+            }
+          </span>
+        </td>
+
+        <td>
+          <span class="status status-${escapeHtml(member.status || "pending")}">
+            ${escapeHtml(
+              member.status === "active"
                 ? "Active"
                 : member.status === "rejected"
                 ? "Rejected"
                 : "Pending"
-        )}
-    </span>
-</td>
+            )}
+          </span>
+        </td>
 
-
-<td>
-   <button
-  class="confirm-payment-btn"
-  data-member-id="${member.id}"
-  ${member.payment_status === "paid" ? "disabled" : ""}>
-  ${member.payment_status === "paid"
-    ? "Payment Confirmed"
-    : "Confirm Payment"}
-</button>
-
-    ${
-        !member.status || member.status === "pending"
-        ? `
-    <button
-  class="approve-btn"
-  data-member-id="${member.id}"
-  ${
-    member.verification_status === "verified" &&
-    member.payment_status === "paid"
-      ? ""
-      : "disabled"
-  }>
-  Approve & Activate
-  </button>
-
-            <button
-                class="reject-btn"
-                data-member-id="${member.id}">
-                Reject
-            </button>
-          `
-        : member.status === "active"
-        ? `<span>Approved</span>`
-        : `<span>Rejected</span>`
-    }
-</td>
-
-
-<td>${escapeHtml(registrationDate)}</td>
-`;
-  tableBody.appendChild(row);
-  });
-}      
-async function updateMemberStatus(memberId, newStatus) {
-
-    const action =
-        newStatus === "active"
-            ? "approve"
-            : "reject";
-
-    const confirmed = confirm(
-        "Are you sure you want to " + action + " this member?"
-    );
-
-    if (!confirmed) return;
-
-    // APPROVE MEMBER
-    if (newStatus === "active") {
-
-        const { data, error } = await supabaseClient.rpc(
-            "approve_member",
-            {
-                p_member_id: memberId
+        <td>
+          <button
+            class="confirm-payment-btn"
+            data-member-id="${member.id}"
+            ${member.payment_status === "paid" ? "disabled" : ""}>
+            ${
+              member.payment_status === "paid"
+                ? "Payment Confirmed"
+                : "Confirm Payment"
             }
-        );
+          </button>
 
-        if (error) {
-            console.error("Error approving member:", error);
-            alert("Unable to approve member: " + error.message);
-            return;
-        }
+          ${
+            !member.status || member.status === "pending"
+              ? `
+                <button
+                  class="approve-btn"
+                  data-member-id="${member.id}"
+                  ${
+                    member.verification_status === "verified" &&
+                    member.payment_status === "paid"
+                      ? ""
+                      : "disabled"
+                  }>
+                  Approve & Activate
+                </button>
 
-        await loadMembers();
+                <button
+                  class="reject-btn"
+                  data-member-id="${member.id}">
+                  Reject
+                </button>
+              `
+              : member.status === "active"
+              ? `
+                <span>Approved</span>
+                ${
+                  member.verification_status === "verified" &&
+                  member.payment_status === "paid" &&
+                  member.membership_status === "active"
+                    ? `
+                      <button
+                        type="button"
+                        class="invite-login-btn"
+                        data-member-id="${member.id}">
+                        Send Login Invitation
+                      </button>
+                    `
+                    : ""
+                }
+              `
+              : `<span>Rejected</span>`
+          }
+        </td>
 
-        alert(
-            "Member approved successfully.\n\nMembership Number: " + data
-        );
+        <td>${escapeHtml(registrationDate)}</td>
+      `;
 
-        return;
+      tableBody.appendChild(row);
+    });
+  }
+
+  async function updateMemberStatus(memberId, newStatus) {
+    const action =
+      newStatus === "active" ? "approve" : "reject";
+
+    if (!confirm(
+      "Are you sure you want to " + action + " this member?"
+    )) {
+      return;
     }
 
-    // REJECT MEMBER
+    if (newStatus === "active") {
+      const { data, error } = await supabaseClient.rpc(
+        "approve_member",
+        { p_member_id: memberId }
+      );
+
+      if (error) {
+        console.error("Error approving member:", error);
+        alert("Unable to approve member: " + error.message);
+        return;
+      }
+
+      await loadMembers();
+
+      alert(
+        "Member approved successfully.\n\nMembership Number: " + data
+      );
+      return;
+    }
+
     const { error } = await supabaseClient
-        .from("members")
-        .update({
-            status: "rejected"
-        })
-        .eq("id", memberId);
+      .from("members")
+      .update({
+        status: "rejected"
+      })
+      .eq("id", memberId);
 
     if (error) {
-        console.error("Error rejecting member:", error);
-        alert("Unable to reject member.");
-        return;
+      console.error("Error rejecting member:", error);
+      alert("Unable to reject member.");
+      return;
     }
 
     await loadMembers();
-
     alert("Member rejected successfully.");
-}
+  }
 
   function searchMembers() {
-
     const searchTerm =
       searchInput.value.toLowerCase().trim();
 
@@ -345,41 +352,26 @@ async function updateMemberStatus(memberId, newStatus) {
     }
 
     const filtered = members.filter(member => {
-
       return (
         String(member.membership_number || "")
-          .toLowerCase()
-          .includes(searchTerm) ||
-
+          .toLowerCase().includes(searchTerm) ||
         String(member.full_name || "")
-          .toLowerCase()
-          .includes(searchTerm) ||
-
+          .toLowerCase().includes(searchTerm) ||
         String(member.class_year || "")
-          .toLowerCase()
-          .includes(searchTerm) ||
-
+          .toLowerCase().includes(searchTerm) ||
         String(member.matriculation_number || "")
-          .toLowerCase()
-          .includes(searchTerm) ||
-
+          .toLowerCase().includes(searchTerm) ||
         String(member.email || "")
-          .toLowerCase()
-          .includes(searchTerm) ||
-
+          .toLowerCase().includes(searchTerm) ||
         String(member.phone || "")
-          .toLowerCase()
-          .includes(searchTerm)
+          .toLowerCase().includes(searchTerm)
       );
-
     });
 
     displayMembers(filtered);
   }
 
-
   function escapeHtml(value) {
-
     return String(value)
       .replaceAll("&", "&amp;")
       .replaceAll("<", "&lt;")
@@ -388,158 +380,295 @@ async function updateMemberStatus(memberId, newStatus) {
       .replaceAll("'", "&#039;");
   }
 
-
-if (searchInput) {
+  if (searchInput) {
     searchInput.addEventListener("input", searchMembers);
-}
+  }
 
-tableBody.addEventListener("click", async (event) => {
+  // -----------------------------------------
+  // ADMIN ACTIONS
+  // -----------------------------------------
+
+  tableBody.addEventListener("click", async (event) => {
     const approveButton = event.target.closest(".approve-btn");
     const verifyButton = event.target.closest(".verify-alumni-btn");
     const paymentButton = event.target.closest(".confirm-payment-btn");
     const rejectButton = event.target.closest(".reject-btn");
-    
-if (paymentButton) {
-    const memberId = Number(
-        paymentButton.dataset.memberId
-    );
+    const inviteButton = event.target.closest(".invite-login-btn");
 
-    if (!Number.isSafeInteger(memberId) || memberId <= 0) {
+    // -----------------------------------------
+    // SEND MEMBER LOGIN INVITATION
+    // -----------------------------------------
+
+    if (inviteButton) {
+      const memberId = Number(inviteButton.dataset.memberId);
+
+      if (!Number.isSafeInteger(memberId) || memberId <= 0) {
         alert("Invalid member ID.");
         return;
-    }
+      }
 
-    if (!confirm(
-        "Have you verified receipt of the €25 registration payment?"
-    )) {
+      const member = members.find(m => m.id === memberId);
+
+      if (
+        !member ||
+        member.status !== "active" ||
+        member.membership_status !== "active" ||
+        member.verification_status !== "verified" ||
+        member.payment_status !== "paid"
+      ) {
+        alert("This member is not eligible for an invitation.");
         return;
+      }
+
+      if (!confirm(
+        `Send a member login invitation to ${member.full_name}?`
+      )) {
+        return;
+      }
+
+      inviteButton.disabled = true;
+      const originalLabel = inviteButton.textContent;
+      inviteButton.textContent = "Sending...";
+
+      try {
+        const { data, error } =
+          await supabaseClient.functions.invoke(
+            "invite-approved-member",
+            {
+              body: { member_id: memberId }
+            }
+          );
+
+        if (error) {
+          let detail = error.message || "Unknown error";
+
+          if (
+            error.context &&
+            typeof error.context.json === "function"
+          ) {
+            try {
+              const response = await error.context.json();
+              detail =
+                response.error ||
+                response.message ||
+                detail;
+            } catch (_) {
+              // Response may not be JSON.
+            }
+          }
+
+          throw new Error(detail);
+        }
+
+        if (!data?.success) {
+          alert(
+            data?.message ||
+            data?.error ||
+            "Invitation not sent."
+          );
+          return;
+        }
+
+        alert(
+          "Invitation submitted to the email provider. " +
+          "Check Resend delivery status."
+        );
+
+      } catch (err) {
+        console.error("Member invitation failed:", err);
+
+        alert(
+          "Unable to send invitation: " +
+          (err.message || "Unknown error")
+        );
+
+      } finally {
+        inviteButton.disabled = false;
+        inviteButton.textContent = originalLabel;
+      }
+
+      return;
     }
 
-    const { data, error } = await supabaseClient.rpc(
+    // -----------------------------------------
+    // CONFIRM PAYMENT
+    // -----------------------------------------
+
+    if (paymentButton) {
+      const memberId = Number(paymentButton.dataset.memberId);
+
+      if (!Number.isSafeInteger(memberId) || memberId <= 0) {
+        alert("Invalid member ID.");
+        return;
+      }
+
+      if (!confirm(
+        "Have you verified receipt of the €50 registration payment?"
+      )) {
+        return;
+      }
+
+      const { data, error } = await supabaseClient.rpc(
         "confirm_member_payment",
         { p_member_id: memberId }
-    );
+      );
 
-    if (error) {
+      if (error) {
         alert("Unable to confirm payment: " + error.message);
         return;
+      }
+
+      alert(data);
+      await loadMembers();
+      return;
     }
 
-    alert(data);
-    await loadMembers();
-    return;
-}
-if (verifyButton) {
-    const memberId = Number(verifyButton.dataset.memberId);
+    // -----------------------------------------
+    // VERIFY SASSE ALUMNI
+    // -----------------------------------------
 
-    if (!Number.isSafeInteger(memberId) || memberId <= 0) {
+    if (verifyButton) {
+      const memberId = Number(verifyButton.dataset.memberId);
+
+      if (!Number.isSafeInteger(memberId) || memberId <= 0) {
         alert("Invalid member ID.");
         return;
-    }
+      }
 
-    if (!confirm("Verify this member against the Sasse alumni database?")) {
+      if (!confirm(
+        "Verify this member against the Sasse alumni database?"
+      )) {
         return;
-    }
+      }
 
-    const { data: member, error: fetchError } = await supabaseClient
-        .from("members")
-       .select("class_year, matriculation_number, sasse_alumni_id")
-        .eq("id", memberId)
-        .single();
+      const { data: member, error: fetchError } =
+        await supabaseClient
+          .from("members")
+          .select(
+            "class_year, matriculation_number, sasse_alumni_id"
+          )
+          .eq("id", memberId)
+          .single();
 
-    if (fetchError) {
-        alert("Unable to retrieve member: " + fetchError.message);
+      if (fetchError) {
+        alert(
+          "Unable to retrieve member: " + fetchError.message
+        );
         return;
-    }
+      }
 
-    const { data, error } = await supabaseClient.rpc(
+      const { data, error } = await supabaseClient.rpc(
         "verify_sasse_alumni",
         {
-            p_class_year: member.class_year,
-            p_matriculation_number: String(member.matriculation_number)
+          p_class_year: member.class_year,
+          p_matriculation_number:
+            String(member.matriculation_number)
         }
-    );
+      );
 
-    if (error) {
-        alert("Alumni verification failed: " + error.message);
+      if (error) {
+        alert(
+          "Alumni verification failed: " + error.message
+        );
         return;
+      }
+
+      const match = Array.isArray(data) ? data[0] : null;
+
+      if (!match?.verified) {
+        alert(
+          "No matching alumni record found. " +
+          "Manual review required."
+        );
+        return;
+      }
+
+      if (
+        Number(match.alumni_id) !==
+        Number(member.sasse_alumni_id)
+      ) {
+        alert(
+          "Alumni record mismatch. Manual review required."
+        );
+        return;
+      }
+
+      const { error: updateError } =
+        await supabaseClient
+          .from("members")
+          .update({
+            verification_status: "verified"
+          })
+          .eq("id", memberId)
+          .eq("sasse_alumni_id", match.alumni_id)
+          .select("id, verification_status")
+          .single();
+
+      if (updateError) {
+        alert(
+          "Unable to update verification: " +
+          updateError.message
+        );
+        return;
+      }
+
+      alert("Alumni verified successfully.");
+      await loadMembers();
+      return;
     }
 
-    const match = Array.isArray(data) ? data[0] : null;
+    // -----------------------------------------
+    // APPROVE & ACTIVATE MEMBER
+    // -----------------------------------------
 
-    if (!match?.verified) {
-        alert("No matching alumni record found. Manual review required.");
-        return;
-    }
+    if (approveButton) {
+      const memberId = Number(approveButton.dataset.memberId);
 
-   // Confirm the matched alumni record belongs to this member
-if (
-  Number(match.alumni_id) !== Number(member.sasse_alumni_id)
-) {
-  alert("Alumni record mismatch. Manual review required.");
-  return;
-}
-
-// Save verification status
-const { data: updatedMember, error: updateError } =
-  await supabaseClient
-    .from("members")
-    .update({
-      verification_status: "verified"
-    })
-    .eq("id", memberId)
-    .eq("sasse_alumni_id", match.alumni_id)
-    .select("id, verification_status")
-    .single();
-
-if (updateError) {
-  alert("Unable to update verification: " + updateError.message);
-  return;
-}
-
-alert("Alumni verified successfully.");
-
-await loadMembers();
-return;
-}
-if (approveButton) {
-    const memberId = Number(
-        approveButton.dataset.memberId
-    );
-
-    if (!Number.isSafeInteger(memberId) || memberId <= 0) {
+      if (!Number.isSafeInteger(memberId) || memberId <= 0) {
         alert("Invalid member ID.");
         return;
-    }
+      }
 
-    if (!confirm(
-        "Activate this member? Alumni verification and payment confirmation are required."
-    )) {
+      if (!confirm(
+        "Activate this member? Alumni verification " +
+        "and payment confirmation are required."
+      )) {
         return;
-    }
+      }
 
-    const { data, error } = await supabaseClient.rpc(
-        "activate_member",
+      const { data, error } = await supabaseClient.rpc(
+        "approve_member",
         { p_member_id: memberId }
-    );
+      );
 
-    if (error) {
-        alert("Unable to activate member: " + error.message);
+      if (error) {
+        alert(
+          "Unable to activate member: " + error.message
+        );
         return;
+      }
+
+      alert(
+        "Member activated successfully. " +
+        "Membership number: " + data
+      );
+
+      await loadMembers();
+      return;
     }
 
-    alert("Member activated successfully. Membership number: " + data);
-    await loadMembers();
-}
-
+    // -----------------------------------------
+    // REJECT MEMBER
+    // -----------------------------------------
 
     if (rejectButton) {
-        await updateMemberStatus(
-            rejectButton.dataset.memberId,
-            "rejected"
-        );
+      await updateMemberStatus(
+        Number(rejectButton.dataset.memberId),
+        "rejected"
+      );
     }
-});
-// Load members when dashboard opens
-await loadMembers();
+  });
+
+  // Load members when dashboard opens.
+  await loadMembers();
 });
