@@ -432,12 +432,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       try {
         const { data, error } =
-          await supabaseClient.functions.invoke(
-            "invite-approved-member",
-            {
-              body: { member_id: memberId }
-            }
-          );
+       
+await supabaseClient.functions.invoke(
+  "hyper-task",
+  {
+    body: { member_id: memberId }
+  }
+);
+
 
         if (error) {
           let detail = error.message || "Unknown error";
