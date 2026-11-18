@@ -148,6 +148,7 @@ h1 { font-size: 26px; }
   background: linear-gradient(135deg, #dcebf4, #b8d5e5);
   background-size: cover;
   background-position: center;
+  background-image: url("../sasse-campus.jpg");
 }
 
 .back-content {
