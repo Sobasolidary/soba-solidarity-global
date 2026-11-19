@@ -670,6 +670,71 @@ const { data, error } =
     }
   });
 
+  // Temporary administrator-only email update.
+  const updateTestEmailButton =
+    document.getElementById("updateTestEmailButton");
+
+  if (updateTestEmailButton) {
+    updateTestEmailButton.addEventListener("click", async () => {
+      const confirmed = confirm(
+        "Change Member ID 2's email from the Dana Petroleum " +
+        "address to fruloveline@gmail.com?"
+      );
+
+      if (!confirmed) return;
+
+      updateTestEmailButton.disabled = true;
+      updateTestEmailButton.textContent = "Updating...";
+
+      try {
+        const { data, error } =
+          await supabaseClient.functions.invoke(
+            "update-member-test-email",
+            { body: {} }
+          );
+
+        if (error) {
+          let message = error.message;
+
+          if (error.context?.json) {
+            try {
+              const response = await error.context.json();
+              message = response.error || message;
+            } catch (_) {}
+          }
+
+          throw new Error(message);
+        }
+
+        if (data?.success !== true) {
+          throw new Error(
+            data?.error || "Email update was not confirmed."
+          );
+        }
+
+        alert(
+          "Member ID 2 email updated successfully to " +
+          data.email
+        );
+
+        await loadMembers();
+
+      } catch (error) {
+        console.error("Email update failed:", error);
+
+        alert(
+          "Email update failed: " +
+          (error.message || "Unknown error")
+        );
+
+      } finally {
+        updateTestEmailButton.disabled = false;
+        updateTestEmailButton.textContent =
+          "Update Member 2 Test Email";
+      }
+    });
+  }
+
   // Load members when dashboard opens.
   await loadMembers();
 });
