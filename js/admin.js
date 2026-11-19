@@ -431,14 +431,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       inviteButton.textContent = "Sending...";
 
       try {
-        const { data, error } =
-       
-await supabaseClient.functions.invoke(
-  "invite-approved-member",
-  {
-    body: { member_id: memberId }
-  }
-);
+  
+const { data, error } =
+  await supabaseClient.functions.invoke(
+    "hyper-task",
+    {
+      body: { member_id: memberId }
+    }
+  );
 
         if (error) {
           let detail = error.message || "Unknown error";
