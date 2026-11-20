@@ -8,7 +8,64 @@
 
   <link rel="stylesheet" href="css/style.css">
 
-  
+/* Registration layout corrections */
+
+body {
+  font-size: 16px;
+}
+
+.registration-container {
+  width: min(90%, 780px);
+  max-width: 780px;
+  margin: 45px auto;
+  padding: 35px;
+  box-sizing: border-box;
+}
+
+.registration-container,
+.registration-container * {
+  box-sizing: border-box;
+}
+
+.registration-container p,
+.registration-container label {
+  overflow-wrap: anywhere;
+}
+
+.registration-notice {
+  width: 100%;
+  min-width: 0;
+  height: auto;
+  overflow: visible;
+}
+
+.registration-notice label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  white-space: normal;
+  line-height: 1.5;
+}
+
+.registration-notice input[type="checkbox"] {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  margin: 3px 0 0;
+  flex: 0 0 18px;
+}
+
+@media (max-width: 650px) {
+  .registration-container {
+    width: calc(100% - 24px);
+    margin: 15px auto;
+    padding: 20px;
+  }
+}
+
 <style>
   .registration-container {
     max-width: 780px;
