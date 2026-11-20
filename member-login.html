@@ -1,1 +1,187 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Member Login | SOBA Solidarity Global Group</title><link rel="stylesheet" href="css/member.css"></head><body><header><div><div class="brand">SOBA Solidarity Global Group</div><div class="motto">One Brotherhood, One Support System.</div></div><a href="index.html">Home</a></header><main class="auth"><section class="panel"><h1>Member Login</h1><p class="muted">For approved and activated SOBA members.</p><div id="message" class="message" hidden role="status"></div><form id="login-form"><label for="email">Registered email</label><input id="email" type="email" autocomplete="email" required><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required><button class="wide" id="login-button">Sign in</button></form><div class="links"><a href="forgot-password.html">Forgot password?</a><a href="index.html">Return to website</a></div><p class="muted">First-time access is provided by email after administrator approval.</p></section></main><footer>© SOBA Solidarity Global Group</footer><script type="module" src="js/member-login.js"></script></body></html>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Member Login | SOBA Solidarity Global Group</title>
+
+  <link rel="stylesheet" href="css/member.css">
+
+  <style>
+    /* SOBA branded header */
+    .soba-header {
+      background: #12263f;
+      color: white;
+      padding: 22px 6%;
+    }
+
+    .soba-header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .soba-brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .soba-emblem {
+      width: 65px;
+      height: 65px;
+      object-fit: contain;
+      background: white;
+      border-radius: 4px;
+    }
+
+    .soba-brand-text h1 {
+      font-size: 22px;
+      margin: 0;
+      color: white;
+    }
+
+    .soba-brand-text p {
+      font-size: 12px;
+      margin: 5px 0 0;
+      color: white;
+    }
+
+    .soba-header nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 15px;
+    }
+
+    .soba-header nav a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 650px) {
+      .soba-header {
+        padding: 18px;
+      }
+
+      .soba-brand-text h1 {
+        font-size: 18px;
+      }
+
+      .soba-emblem {
+        width: 52px;
+        height: 52px;
+      }
+
+      .soba-header nav a {
+        margin: 0 15px 0 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="soba-header">
+  <div class="soba-header-inner">
+
+    <div class="soba-brand">
+      <img
+        src="sasse-crest.png"
+        alt="SASSE School Crest"
+        class="soba-emblem"
+      >
+
+      <div class="soba-brand-text">
+        <h1>SOBA Solidarity Global Group</h1>
+        <p>One Brotherhood, One Support System.</p>
+      </div>
+    </div>
+
+    <nav aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="register.html">Register</a>
+    </nav>
+
+  </div>
+</header>
+
+<main class="auth">
+  <section class="panel">
+
+    <h1>Member Login</h1>
+
+    <p class="muted">
+      For approved and activated SOBA members.
+    </p>
+
+    <div
+      id="message"
+      class="message"
+      hidden
+      role="status">
+    </div>
+
+    <form id="login-form">
+
+      <label for="email">Registered email</label>
+      <input
+        id="email"
+        type="email"
+        autocomplete="email"
+        required
+      >
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        autocomplete="current-password"
+        required
+      >
+
+      <button
+        type="submit"
+        class="wide"
+        id="login-button">
+        Sign in
+      </button>
+
+    </form>
+
+    <div class="links">
+      <a href="forgot-password.html">
+        Forgot password?
+      </a>
+
+      <a href="index.html">
+        Return to website
+      </a>
+    </div>
+
+    <p class="muted">
+      First-time access is provided by email
+      after administrator approval.
+    </p>
+
+  </section>
+</main>
+
+<footer>
+  © SOBA Solidarity Global Group
+</footer>
+
+<script
+  type="module"
+  src="js/member-login.js">
+</script>
+
+</body>
+</html>
