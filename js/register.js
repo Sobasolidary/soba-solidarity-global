@@ -30,7 +30,6 @@
     resetAlumniVerification
   );
 
-
   async function verifyAlumni() {
     const classYear = parseInt(classYearInput.value, 10);
     const matriculationNumber = matriculationInput.value.trim();
@@ -148,17 +147,28 @@
 
       const membershipNumber = data[0].membership_number;
 
-      alert(
-        "Registration successful!\n\n" +
-        "Your SOBA Solidarity Global Group membership number is:\n" +
-        membershipNumber
-      );
+alert(
+  "SOBA Solidarity Global Group\n\n" +
+  "Your registration has been received successfully!\n\n" +
+  "Your membership reference number is:\n" +
+  membershipNumber + "\n\n" +
+  "Next steps:\n" +
+  "1. Alumni verification will be confirmed.\n" +
+  "2. Your one-time registration fee of €50 must be confirmed.\n" +
+  "3. An administrator will review and approve your application.\n\n" +
+  "Your membership will become active only after all " +
+  "requirements have been completed.\n\n" +
+  "You will receive further instructions by email."
+);
+
 
       form.reset();
       verifiedAlumni = null;
 
-      verificationResult.textContent =
-        "Registration completed successfully: " + membershipNumber;
+    verificationResult.textContent =
+  "Registration received. Reference: " +
+  membershipNumber +
+  ". Your membership is pending approval.";
 
     } catch (err) {
       console.error(err);
