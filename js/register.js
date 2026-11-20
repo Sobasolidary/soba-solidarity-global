@@ -7,6 +7,29 @@
   const fullNameInput = document.getElementById("fullName");
 
   let verifiedAlumni = null;
+  
+  // Cancel verification if alumni details are changed
+  function resetAlumniVerification() {
+    verifiedAlumni = null;
+
+    if (fullNameInput) {
+      fullNameInput.value = "";
+    }
+
+    verificationResult.textContent =
+      "Alumni details changed. Please verify again.";
+  }
+
+  classYearInput.addEventListener(
+    "input",
+    resetAlumniVerification
+  );
+
+  matriculationInput.addEventListener(
+    "input",
+    resetAlumniVerification
+  );
+
 
   async function verifyAlumni() {
     const classYear = parseInt(classYearInput.value, 10);
