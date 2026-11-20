@@ -7,6 +7,117 @@
   <title>Register | SOBA Solidarity Global Group</title>
 
   <link rel="stylesheet" href="css/style.css">
+
+  
+<style>
+  .registration-container {
+    max-width: 780px;
+    margin: 45px auto;
+    padding: 35px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+  }
+
+  .registration-container h2 {
+    color: #102a43;
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
+
+  .registration-container h3 {
+    color: #155b87;
+    margin-top: 35px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e1e7ed;
+  }
+
+  .registration-container label {
+    display: block;
+    margin-top: 16px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #243b53;
+  }
+
+  .registration-container input:not([type="checkbox"]),
+  .registration-container textarea {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 15px;
+    box-sizing: border-box;
+  }
+
+  .registration-container input:focus,
+  .registration-container textarea:focus {
+    outline: 2px solid #155b87;
+    outline-offset: 1px;
+  }
+
+  .registration-container input[readonly] {
+    background: #f1f5f9;
+  }
+
+  .registration-container button {
+    background: #102a43;
+    color: white;
+    padding: 13px 22px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 22px;
+  }
+
+  .registration-container button:hover {
+    background: #155b87;
+  }
+
+  .registration-container button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  #verificationResult {
+    margin-top: 12px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  .registration-notice {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f3f6fa;
+    border-radius: 8px;
+  }
+
+  .registration-notice label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-weight: normal;
+  }
+
+  .registration-notice input[type="checkbox"] {
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 650px) {
+    .registration-container {
+      margin: 15px;
+      padding: 20px;
+    }
+
+    .registration-container h2 {
+      font-size: 24px;
+    }
+  }
+</style>
+
 </head>
 
 <body>
