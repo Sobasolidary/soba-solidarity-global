@@ -1,1 +1,443 @@
-<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>SOBA Solidarity Global Group</title><link rel='stylesheet' href='css/style.css'></head><body><header><h1>SOBA Solidarity Global Group</h1><p>One Brotherhood, One Support System.</p><nav><a href='index.html'>Home</a><a href='register.html'>Register</a><a href='admin/index.html'>Admin</a></nav></header><main><section class='card'><h2>Welcome</h2><p>A global solidarity and membership platform for SOBAs.</p><a class='button' href='register.html'>Register as a Member</a></section><section class='grid'><article><h3>Verified membership</h3><p>Registration includes verification against the SOBA matriculation database.</p></article><article><h3>Next of kin</h3><p>Securely record next-of-kin details during registration.</p></article><article><h3>Member IDs</h3><p>Approved members can be assigned a unique SOBA Solidarity member ID.</p></article></section></main><footer>© SOBA Solidarity Global Group</footer></body></html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SOBA Solidarity Global Group - One Brotherhood, One Support System.">
+  <title>SOBA Solidarity Global Group</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    :root {
+      --navy: #102a43;
+      --blue: #155b87;
+      --gold: #d6a43a;
+      --light: #f3f6fa;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--light);
+      color: var(--navy);
+      line-height: 1.65;
+    }
+
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 22px 6%;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .brand h1 {
+      font-size: 23px;
+      margin: 0;
+    }
+
+    .brand p {
+      margin: 3px 0 0;
+      font-size: 13px;
+      color: #d5e1ec;
+    }
+
+    nav {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    nav a:hover { color: var(--gold); }
+
+    .hero {
+      background: linear-gradient(120deg, #102a43, #155b87);
+      color: white;
+      padding: 95px 6%;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-size: clamp(30px, 5vw, 48px);
+      max-width: 900px;
+      margin: 0 auto 20px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      max-width: 720px;
+      margin: 0 auto 30px;
+      font-size: 18px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 13px 24px;
+      background: var(--gold);
+      color: #102a43;
+      border-radius: 7px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 5px;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--navy);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 65px 6%;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 30px;
+      margin: 0 0 18px;
+    }
+
+    .intro {
+      max-width: 820px;
+      margin: 0 auto 35px;
+      text-align: center;
+      color: #52657a;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+
+    .feature {
+      background: white;
+      padding: 28px;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.06);
+    }
+
+    .feature h3 { margin-top: 0; }
+
+    .feature p { color: #52657a; }
+
+    .steps {
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      padding-top: 55px;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      top: 15px;
+      left: 28px;
+      background: var(--navy);
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 32px;
+      font-weight: bold;
+    }
+
+    .fee {
+      text-align: center;
+      background: #e7f0f7;
+      border-radius: 12px;
+      padding: 35px;
+    }
+
+    .fee strong {
+      font-size: 42px;
+      color: var(--blue);
+    }
+
+    .contact {
+      text-align: center;
+    }
+
+    .contact a {
+      color: var(--blue);
+      overflow-wrap: anywhere;
+    }
+
+    details {
+      background: white;
+      padding: 18px 22px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    footer {
+      background: var(--navy);
+      color: white;
+      padding: 30px 6%;
+      text-align: center;
+    }
+
+    footer a { color: white; }
+
+    @media (max-width: 650px) {
+      .hero { padding: 65px 6%; }
+      .container { padding: 45px 6%; }
+      nav { gap: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <h1>SOBA Solidarity Global Group</h1>
+      <p>One Brotherhood, One Support System.</p>
+    </div>
+
+    <nav aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="#about">About</a>
+      <a href="#membership">Membership</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+      <a href="register.html">Register</a>
+      <a href="member-login.html">Member Login</a>
+      <a href="admin-login.html">Admin</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <h2>One Brotherhood, One Support System.</h2>
+  <p>
+    Connecting SOBAs through a structured solidarity
+    membership platform built on brotherhood,
+    mutual support and shared responsibility.
+  </p>
+
+  <a class="btn" href="register.html">Become a Member</a>
+  <a class="btn btn-secondary" href="member-login.html">
+    Member Login
+  </a>
+</section>
+
+<section id="about" class="container">
+  <h2 class="section-title">About SOBA Solidarity</h2>
+  <p class="intro">
+    SOBA Solidarity Global Group is a solidarity initiative
+    designed to bring together eligible Sasse alumni
+    through an organized membership and mutual-support system.
+    Our mission is to strengthen brotherhood, promote
+    collective responsibility and provide a structured
+    framework for supporting members and their families.
+  </p>
+
+  <div class="grid">
+    <article class="feature">
+      <h3>Brotherhood</h3>
+      <p>
+        Strengthening the lifelong connection between
+        members of the Sasse alumni community.
+      </p>
+    </article>
+
+    <article class="feature">
+      <h3>Solidarity</h3>
+      <p>
+        Encouraging collective support and shared
+        responsibility among members.
+      </p>
+    </article>
+
+    <article class="feature">
+      <h3>Accountability</h3>
+      <p>
+        Maintaining an organized membership system
+        with alumni verification and administrative oversight.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section id="membership" class="container">
+  <h2 class="section-title">How Membership Works</h2>
+  <p class="intro">
+    Membership applications follow a verification,
+    payment confirmation and approval process.
+  </p>
+
+  <div class="grid steps">
+    <article class="feature step">
+      <h3>Register Online</h3>
+      <p>
+        Complete the registration form with your personal
+        information, SASSE class year, matriculation number
+        and next-of-kin details.
+      </p>
+    </article>
+
+    <article class="feature step">
+      <h3>Alumni Verification</h3>
+      <p>
+        Your alumni information is reviewed against
+        available SASSE records.
+      </p>
+    </article>
+
+    <article class="feature step">
+      <h3>Payment Confirmation</h3>
+      <p>
+        Pay the official one-time registration fee.
+        An administrator confirms the payment.
+      </p>
+    </article>
+
+    <article class="feature step">
+      <h3>Membership Activation</h3>
+      <p>
+        After verification, payment and approval,
+        your membership is activated and you can
+        access your member portal.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section class="container">
+  <div class="fee">
+    <h2>Registration Fee</h2>
+    <strong>€50</strong>
+    <p>One-time membership registration fee.</p>
+    <p>
+      Payment instructions are provided during
+      the registration process.
+    </p>
+    <a class="btn" href="register.html">Register Now</a>
+  </div>
+</section>
+
+<section class="container">
+  <h2 class="section-title">Your Member Portal</h2>
+  <p class="intro">
+    Approved members can securely access their membership
+    information and digital membership card.
+  </p>
+
+  <div class="grid">
+    <article class="feature">
+      <h3>Personal Dashboard</h3>
+      <p>View your registered membership details.</p>
+    </article>
+
+    <article class="feature">
+      <h3>Next of Kin</h3>
+      <p>View the next-of-kin information on your record.</p>
+    </article>
+
+    <article class="feature">
+      <h3>Digital Membership Card</h3>
+      <p>
+        Access your personal SOBA Solidarity membership card
+        after activation.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section id="faq" class="container">
+  <h2 class="section-title">Frequently Asked Questions</h2>
+
+  <details>
+    <summary>Who can register?</summary>
+    <p>
+      Registration is intended for eligible Sasse alumni.
+      Applications are subject to alumni verification.
+    </p>
+  </details>
+
+  <details>
+    <summary>How much does registration cost?</summary>
+    <p>The one-time registration fee is €50.</p>
+  </details>
+
+  <details>
+    <summary>When does my membership become active?</summary>
+    <p>
+      Your membership becomes active after alumni verification,
+      payment confirmation and administrator approval.
+    </p>
+  </details>
+
+  <details>
+    <summary>How do I access my membership card?</summary>
+    <p>
+      Once approved, use your member login credentials
+      to access your dashboard and digital membership card.
+    </p>
+  </details>
+
+  <details>
+    <summary>Why is next-of-kin information required?</summary>
+    <p>
+      It helps the organization maintain an appropriate
+      contact record for membership administration
+      and solidarity-related matters.
+    </p>
+  </details>
+</section>
+
+<section id="contact" class="container contact">
+  <h2 class="section-title">Contact SOBA Solidarity</h2>
+  <p>
+    For membership questions, registration assistance
+    or general inquiries, contact:
+  </p>
+  <p>
+    <a href="mailto:sobaSolidarity@gmail.com">
+      sobaSolidarity@gmail.com
+    </a>
+  </p>
+</section>
+
+</main>
+
+<footer>
+  <p>SOBA Solidarity Global Group</p>
+  <p>One Brotherhood, One Support System.</p>
+  <p>&copy; 2026 SOBA Solidarity Global Group</p>
+</footer>
+
+</body>
+</html>
