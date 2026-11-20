@@ -1,37 +1,159 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
   <title>Member Dashboard | SOBA Solidarity Global Group</title>
+
   <link rel="stylesheet" href="css/member.css">
+
+  <style>
+    /* SOBA Dashboard Header */
+
+    .soba-header {
+      background: #12263f;
+      color: white;
+      padding: 22px 6%;
+    }
+
+    .soba-header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .soba-brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .soba-emblem {
+      width: 65px;
+      height: 65px;
+      object-fit: contain;
+      background: white;
+      border-radius: 4px;
+    }
+
+    .soba-brand-text h1 {
+      font-size: 22px;
+      margin: 0;
+      color: white;
+    }
+
+    .soba-brand-text p {
+      font-size: 12px;
+      margin: 5px 0 0;
+      color: white;
+    }
+
+    .soba-header #logout {
+      background: #ffffff;
+      color: #12263f;
+      border: 1px solid #ffffff;
+      border-radius: 6px;
+      padding: 10px 18px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .soba-header #logout:hover {
+      background: #e8edf4;
+    }
+
+    .membership-card-preview {
+      width: 100%;
+      height: 850px;
+      border: 0;
+      display: block;
+    }
+
+    @media (max-width: 650px) {
+      .soba-header {
+        padding: 18px;
+      }
+
+      .soba-emblem {
+        width: 52px;
+        height: 52px;
+      }
+
+      .soba-brand-text h1 {
+        font-size: 18px;
+      }
+
+      .membership-card-preview {
+        height: 650px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<header>
-  <div>
-    <div class="brand">SOBA Solidarity Global Group</div>
-    <div class="motto">One Brotherhood, One Support System.</div>
+<header class="soba-header">
+  <div class="soba-header-inner">
+
+    <div class="soba-brand">
+
+      <img
+        src="sasse-crest.png"
+        alt="SASSE School Crest"
+        class="soba-emblem"
+      >
+
+      <div class="soba-brand-text">
+        <h1>SOBA Solidarity Global Group</h1>
+        <p>One Brotherhood, One Support System.</p>
+      </div>
+
+    </div>
+
+    <button id="logout" type="button">
+      Sign out
+    </button>
+
   </div>
-  <button id="logout">Sign out</button>
 </header>
 
 <main>
+
   <div class="toolbar">
+
     <div>
       <h1>Member Dashboard</h1>
+
       <p class="muted" id="welcome">
         Loading your membership details…
       </p>
     </div>
-    <a class="button" href="index.html">Website home</a>
+
+    <a class="button" href="index.html">
+      Website home
+    </a>
+
   </div>
 
-  <div id="message" class="message" hidden role="status"></div>
+  <div
+    id="message"
+    class="message"
+    hidden
+    role="status">
+  </div>
 
   <!-- Member information panels -->
+
   <div class="cards hidden" id="dashboard">
+
     <section class="panel">
       <h2>Membership</h2>
       <div id="membership"></div>
@@ -46,34 +168,48 @@
       <h2>Next of kin</h2>
       <div id="kin"></div>
     </section>
+
   </div>
 
-  <!-- Single digital membership card section -->
-  <section id="digital-membership-card"
-           class="panel"
-           style="margin-top:32px;">
+  <!-- Digital membership card -->
+
+  <section
+    id="digital-membership-card"
+    class="panel"
+    style="margin-top:32px;"
+  >
 
     <h2>My Digital Membership Card</h2>
-    <p>View your official SOBA membership card below.</p>
 
-<iframe
-  src="member-card.html?preview=1"
-  title="SOBA Digital Membership Card"
-  style="width:100%;height:850px;border:0;display:block;"
-  loading="lazy">
-</iframe>
+    <p>
+      View your SOBA Solidarity membership card below.
+    </p>
+
+    <iframe
+      src="member-card.html?preview=1"
+      title="SOBA Digital Membership Card"
+      class="membership-card-preview"
+      loading="lazy">
+    </iframe>
 
     <p>
       <a class="button" href="member-card.html">
         Open, Print or Save Membership Card
       </a>
     </p>
+
   </section>
 
 </main>
 
-<footer>© SOBA Solidarity Global Group</footer>
+<footer>
+  © SOBA Solidarity Global Group
+</footer>
 
-<script type="module" src="js/member-dashboard.js"></script>
+<script
+  type="module"
+  src="js/member-dashboard.js">
+</script>
+
 </body>
 </html>
