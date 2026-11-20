@@ -54,3 +54,66 @@ input[type="checkbox"] {
     margin: 15px auto;
   }
 }
+
+/* SOBA Emblem and Header */
+
+.soba-header {
+  background: #12263f;
+  color: white;
+  padding: 22px max(6vw, 24px);
+}
+
+.soba-brand {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.soba-emblem {
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.soba-brand-text h1 {
+  margin: 0 0 6px;
+  font-size: 26px;
+}
+
+.soba-brand-text p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.soba-header nav {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.soba-header nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0;
+}
+
+.soba-header nav a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 650px) {
+  .soba-emblem {
+    width: 55px;
+    height: 55px;
+  }
+
+  .soba-brand-text h1 {
+    font-size: 19px;
+  }
+
+  .soba-header {
+    padding: 18px;
+  }
+}
