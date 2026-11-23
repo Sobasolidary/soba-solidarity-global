@@ -286,6 +286,46 @@
       the approved benefit and the number
       of eligible contributing members.
     </p>
+  
+<section class="card">
+  <h2>Solidarity Contribution Calculator</h2>
+
+  <p>
+    Estimate the contribution required from each
+    member for an approved bereavement claim.
+  </p>
+
+  <label for="contributing-members">
+    Number of contributing members:
+  </label>
+
+  <input
+    type="number"
+    id="contributing-members"
+    min="1"
+    step="1"
+    value="1000"
+    style="padding:12px;width:100%;max-width:250px;
+           margin:12px 0;font-size:16px;"
+  >
+
+  <div class="formula">
+    Target benefit: €15,000
+    <p>
+      Estimated contribution per member:
+      <strong id="contribution-result">€15.00</strong>
+    </p>
+  </div>
+
+  <p class="muted">
+    This calculator is illustrative only.
+    Actual contributions depend on the
+    approved claim and eligible contributing
+    membership at the time of assessment.
+  </p>
+</section>
+
+  
   </section>
 
   <section class="card">
@@ -341,6 +381,40 @@
   &copy; SOBA Solidarity Global Group
   <p>One Brotherhood, One Support System.</p>
 </footer>
+
+<script>
+  const memberInput =
+    document.getElementById("contributing-members");
+
+  const contributionResult =
+    document.getElementById("contribution-result");
+
+  function calculateContribution() {
+    const members = Number(memberInput.value);
+
+    if (!Number.isSafeInteger(members) || members < 1) {
+      contributionResult.textContent =
+        "Enter a valid number of members";
+      return;
+    }
+
+    const benefit = 15000;
+    const contribution = benefit / members;
+
+    contributionResult.textContent =
+      new Intl.NumberFormat("en-IE", {
+        style: "currency",
+        currency: "EUR"
+      }).format(contribution);
+  }
+
+  memberInput.addEventListener(
+    "input",
+    calculateContribution
+  );
+
+  calculateContribution();
+</script>
 
 </body>
 </html>
