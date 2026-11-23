@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Solidarity Scheme | SOBA Solidarity Global Group</title>
+
+  <style>
+    :root {
+      --navy: #12263f;
+      --gold: #d7aa4b;
+      --light: #f4f6f9;
+      --text: #263445;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background: var(--light);
+      line-height: 1.65;
+    }
+
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 20px 6%;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .brand img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      background: white;
+      padding: 4px;
+      border-radius: 5px;
+    }
+
+    .brand h1 {
+      font-size: 21px;
+      margin: 0;
+    }
+
+    .brand p {
+      font-size: 12px;
+      margin: 3px 0 0;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-right: 16px;
+      font-weight: bold;
+    }
+
+    nav a:hover { color: var(--gold); }
+
+    .hero {
+      background: var(--navy);
+      color: white;
+      text-align: center;
+      padding: 55px 20px 65px;
+    }
+
+    .hero h2 {
+      font-size: clamp(28px, 5vw, 42px);
+      margin: 0 0 12px;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 35px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 28px;
+      margin-bottom: 22px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+    }
+
+    .card h2 {
+      color: var(--navy);
+      margin-top: 0;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(
+        auto-fit, minmax(190px, 1fr)
+      );
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .stat {
+      background: white;
+      padding: 25px 15px;
+      border-radius: 10px;
+      text-align: center;
+      border-top: 4px solid var(--gold);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 27px;
+      color: var(--navy);
+    }
+
+    .stat span { font-size: 14px; }
+
+    .formula {
+      background: #edf2f7;
+      border-left: 4px solid var(--gold);
+      padding: 18px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .cta {
+      text-align: center;
+      padding: 25px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 13px 25px;
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 6px;
+      margin: 8px;
+    }
+
+    footer {
+      background: var(--navy);
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+      margin-top: 45px;
+    }
+
+    @media (max-width: 650px) {
+      nav a {
+        display: inline-block;
+        margin: 6px 12px 0 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <img src="sasse-crest.png"
+           alt="SASSE School Crest">
+      <div>
+        <h1>SOBA Solidarity Global Group</h1>
+        <p>One Brotherhood, One Support System.</p>
+      </div>
+    </div>
+
+    <nav aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="register.html">Register</a>
+      <a href="member-login.html">Member Login</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <h2>SOBA Solidarity Scheme</h2>
+  <p>
+    Supporting one another through unity,
+    brotherhood and collective responsibility.
+  </p>
+</section>
+
+<main>
+
+  <section class="card">
+    <h2>About the Scheme</h2>
+    <p>
+      The SOBA Solidarity Global Group (SSGG)
+      brings together eligible SASSE alumni
+      across Europe and the United Kingdom
+      to provide financial solidarity support
+      to the bereaved family of a member.
+    </p>
+    <p>
+      Our guiding principle is simple:
+      One Brotherhood, One Support System.
+    </p>
+  </section>
+
+  <div class="stats">
+    <div class="stat">
+      <strong>€50</strong>
+      <span>One-time registration fee</span>
+    </div>
+
+    <div class="stat">
+      <strong>€15,000</strong>
+      <span>Target bereavement benefit</span>
+    </div>
+
+    <div class="stat">
+      <strong>Shared</strong>
+      <span>Contribution per approved claim</span>
+    </div>
+  </div>
+
+  <section class="card">
+    <h2>Membership Eligibility</h2>
+    <p>
+      Membership is intended for eligible
+      SASSE alumni within the scheme's
+      geographical scope.
+    </p>
+    <p>
+      Registration requires alumni verification,
+      payment of the registration fee,
+      and administrator approval.
+    </p>
+    <p>
+      Once approved and activated, members
+      receive access to their secure
+      membership portal.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>How Contributions Work</h2>
+    <p>
+      When an eligible bereavement claim is
+      approved, the required contribution
+      is shared among the members eligible
+      to contribute to that claim.
+    </p>
+
+    <div class="formula">
+      Contribution per member =
+      Approved benefit amount ÷
+      Number of contributing members
+    </div>
+
+    <p>
+      Example: With 1,000 contributing
+      members and a €15,000 benefit,
+      the contribution is €15 per member
+      for that approved claim.
+    </p>
+
+    <p>
+      The actual contribution depends on
+      the approved benefit and the number
+      of eligible contributing members.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Bereavement Support</h2>
+    <p>
+      The scheme aims to provide a
+      €15,000 bereavement benefit following
+      the death of an eligible member,
+      subject to the applicable scheme rules
+      and claim approval procedures.
+    </p>
+    <p>
+      Claim verification, beneficiary
+      confirmation and payment authorisation
+      will be handled through the
+      scheme's administration process.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Membership Administration</h2>
+    <p>
+      Approved members will be able to use
+      their secure portal to view membership
+      information and, as additional features
+      are introduced, contribution records
+      and payment status.
+    </p>
+    <p>
+      Contribution collection and claims
+      processing are not yet enabled
+      on this public website.
+    </p>
+  </section>
+
+  <section class="card cta">
+    <h2>Join the SOBA Solidarity Global Group</h2>
+    <p>
+      Become part of a community built on
+      solidarity, responsibility and brotherhood.
+    </p>
+    <a class="button" href="register.html">
+      Register Now
+    </a>
+    <a class="button" href="member-login.html">
+      Member Login
+    </a>
+  </section>
+
+</main>
+
+<footer>
+  &copy; SOBA Solidarity Global Group
+  <p>One Brotherhood, One Support System.</p>
+</footer>
+
+</body>
+</html>
