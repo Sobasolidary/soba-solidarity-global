@@ -6,4 +6,4 @@ export const SUPABASE_ANON_KEY =
   "sb_publishable_opppaJSkpSEoJSYDhT2Mlw_J4eHch8I";
 
 export const SITE_BASE =
-  "https://sobasolidary.github.io/soba-solidarity-global/";
+  "https://sobasolidarity.com/";
