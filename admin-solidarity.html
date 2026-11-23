@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Solidarity Administration | SSGG</title>
+
+  <link rel="stylesheet" href="css/member.css">
+
+  <style>
+    body {
+      background: #f4f6f9;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background: #12263f;
+      color: white;
+      padding: 22px 6%;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      font-size: 13px;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 35px auto;
+      padding: 0 20px;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .stat {
+      background: white;
+      padding: 24px;
+      border-radius: 10px;
+      border-top: 4px solid #d7aa4b;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      color: #12263f;
+    }
+
+    .panel {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+    }
+
+    .panel h2 {
+      margin-top: 0;
+      color: #12263f;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background: #edf2f7;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .error {
+      color: #a32121;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #555;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>SOBA Solidarity Global Group</h1>
+  <p>Solidarity Administration Dashboard</p>
+</header>
+
+<main>
+  <p id="loading">Checking administrator access...</p>
+
+  <p id="error-message"
+     class="error"
+     role="alert"
+     hidden></p>
+
+  <div id="dashboard" class="hidden">
+
+    <div class="summary">
+      <div class="stat">
+        <strong id="claim-count">0</strong>
+        <span>Bereavement Claims</span>
+      </div>
+
+      <div class="stat">
+        <strong id="contribution-count">0</strong>
+        <span>Contribution Records</span>
+      </div>
+
+      <div class="stat">
+        <strong id="total-due">€0.00</strong>
+        <span>Total Contributions Due</span>
+      </div>
+
+      <div class="stat">
+        <strong id="total-paid">€0.00</strong>
+        <span>Total Contributions Paid</span>
+      </div>
+    </div>
+
+    <section class="panel">
+      <h2>Bereavement Claims</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Reference</th>
+              <th>Member ID</th>
+              <th>Benefit</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="claims-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Solidarity Contributions</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Claim ID</th>
+              <th>Member ID</th>
+              <th>Amount Due</th>
+              <th>Amount Paid</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="contributions-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <p>
+      Read-only dashboard. Financial actions
+      are not yet enabled.
+    </p>
+
+  </div>
+</main>
+
+<footer>
+  © SOBA Solidarity Global Group
+</footer>
+
+<script type="module"
+        src="js/admin-solidarity.js"></script>
+
+</body>
+</html>
