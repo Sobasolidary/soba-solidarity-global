@@ -10,6 +10,7 @@ const euro = new Intl.NumberFormat("en-IE", {
   currency: "EUR"
 });
 
+// Display dashboard errors
 function showError(message) {
   loading.hidden = true;
   dashboard.classList.add("hidden");
@@ -17,10 +18,12 @@ function showError(message) {
   errorMessage.hidden = false;
 }
 
+// Update dashboard text
 function setText(id, value) {
   document.getElementById(id).textContent = value;
 }
 
+// Safely create table rows
 function addRow(tbody, values) {
   const tr = document.createElement("tr");
 
@@ -33,14 +36,21 @@ function addRow(tbody, values) {
   tbody.appendChild(tr);
 }
 
+// Display bereavement claims
 function displayClaims(claims) {
   const tbody = document.getElementById("claims-body");
+
   tbody.replaceChildren();
 
   setText("claim-count", claims.length);
 
   if (claims.length === 0) {
-    addRow(tbody, ["No claims recorded", "", "", ""]);
+    addRow(tbody, [
+      "No claims recorded",
+      "",
+      "",
+      ""
+    ]);
     return;
   }
 
@@ -54,6 +64,7 @@ function displayClaims(claims) {
   }
 }
 
+// Display solidarity contributions
 function displayContributions(contributions) {
   const tbody = document.getElementById(
     "contributions-body"
@@ -67,10 +78,17 @@ function displayContributions(contributions) {
   let totalPaid = 0;
 
   if (contributions.length === 0) {
-    addRow(tbody, ["No contributions recorded", "", "", "", ""]);
+    addRow(tbody, [
+      "No contributions recorded",
+      "",
+      "",
+      "",
+      ""
+    ]);
   }
 
   for (const contribution of contributions) {
+
     const due = Number(contribution.amount_due);
     const paid = Number(contribution.amount_paid);
 
@@ -90,86 +108,59 @@ function displayContributions(contributions) {
   setText("total-paid", euro.format(totalPaid));
 }
 
--- SOBA Solidarity Global Group
--- Step 7D.1: Eligible Members for Bereavement Claims
+// Load eligible SOBA members
+async function loadEligibleMembers() {
 
-BEGIN;
+  const memberSelect =
+    document.getElementById("claim-member");
 
-CREATE OR REPLACE FUNCTION
-public.get_bereavement_eligible_members()
+  const { data: members, error } =
+    await supabase.rpc(
+      "get_bereavement_eligible_members"
+    );
 
-RETURNS TABLE (
-    member_id BIGINT,
-    membership_number TEXT,
-    full_name TEXT
-)
+  if (error) {
+    throw error;
+  }
 
-LANGUAGE plpgsql
-SECURITY DEFINER
-SET search_path = ''
+  memberSelect.replaceChildren();
 
-AS $$
-BEGIN
+  const placeholder = document.createElement("option");
 
-    -- Verify administrator authorization
-    IF auth.uid() IS NULL OR NOT EXISTS (
-        SELECT 1
-        FROM public.admin_users a
-        WHERE a.user_id = auth.uid()
-    ) THEN
-        RAISE EXCEPTION
-            'Administrator access required';
-    END IF;
+  placeholder.value = "";
+  placeholder.textContent =
+    "Select registered SOBA member";
 
-    -- Retrieve active and verified members
-    RETURN QUERY
+  memberSelect.appendChild(placeholder);
 
-    SELECT
-        m.id::BIGINT,
-        m.membership_number::TEXT,
-        m.full_name::TEXT
+  for (const member of members || []) {
 
-    FROM public.members m
+    const option = document.createElement("option");
 
-    WHERE m.status = 'active'
-      AND m.membership_status = 'active'
-      AND m.verification_status = 'verified'
-      AND m.payment_status = 'paid'
-      AND m.activated_at IS NOT NULL
+    option.value = String(member.member_id);
 
-      AND NOT EXISTS (
-          SELECT 1
-          FROM public.bereavement_claims b
-          WHERE b.member_id = m.id
-            AND b.claim_status <> 'rejected'
-      )
+    option.textContent =
+      `${member.membership_number} — ${member.full_name}`;
 
-    ORDER BY m.full_name;
+    memberSelect.appendChild(option);
+  }
+}
 
-END;
-$$;
-
--- Restrict function execution
-REVOKE ALL ON FUNCTION
-public.get_bereavement_eligible_members()
-FROM PUBLIC, anon, authenticated;
-
-GRANT EXECUTE ON FUNCTION
-public.get_bereavement_eligible_members()
-TO authenticated;
-
-COMMIT;
-
+// Initialize the Solidarity Dashboard
 async function initializeDashboard() {
+
   try {
-    // 1. Verify the current authenticated user
+
+    // 1. Verify authenticated user
     const { data: userData, error: userError } =
       await supabase.auth.getUser();
 
     if (userError || !userData?.user) {
+
       showError(
         "Please sign in with your authorized administrator account."
       );
+
       return;
     }
 
@@ -188,9 +179,11 @@ async function initializeDashboard() {
     }
 
     if (!admin) {
+
       showError(
         "Access denied. This page is restricted to SOBA administrators."
       );
+
       return;
     }
 
@@ -208,7 +201,7 @@ async function initializeDashboard() {
       throw claimsError;
     }
 
-    // 4. Retrieve contribution records
+    // 4. Retrieve solidarity contributions
     const {
       data: contributions,
       error: contributionsError
@@ -224,20 +217,23 @@ async function initializeDashboard() {
       throw contributionsError;
     }
 
-    // 5. Display the authorized information
-    
+    // 5. Display dashboard information
     displayClaims(claims || []);
     displayContributions(contributions || []);
 
-    // Load eligible SOBA members
-   await loadEligibleMembers();
+    // 6. Populate the eligible member dropdown
+    await loadEligibleMembers();
 
-   loading.hidden = true;
-   dashboard.classList.remove("hidden");
-
+    // 7. Display the dashboard
+    loading.hidden = true;
+    dashboard.classList.remove("hidden");
 
   } catch (error) {
-    console.error("Solidarity dashboard error:", error);
+
+    console.error(
+      "Solidarity dashboard error:",
+      error
+    );
 
     showError(
       "Unable to load the solidarity dashboard. " +
