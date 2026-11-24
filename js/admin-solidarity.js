@@ -147,6 +147,150 @@ async function loadEligibleMembers() {
 }
 
 // Initialize the Solidarity Dashboard
+
+/* Bereavement Claim Registration */
+
+// Keep live registration disabled during testing
+const CLAIM_REGISTRATION_ENABLED = false;
+
+function initializeClaimForm() {
+
+  const form = document.getElementById("claim-form");
+
+  const button = document.getElementById(
+    "register-claim-button"
+  );
+
+  const message = document.getElementById(
+    "claim-message"
+  );
+
+  const memberSelect = document.getElementById(
+    "claim-member"
+  );
+
+  button.disabled = !CLAIM_REGISTRATION_ENABLED;
+
+  function showClaimMessage(text, isError = false) {
+
+    message.textContent = text;
+
+    message.style.background = isError
+      ? "#fde8e8"
+      : "#d9f5e5";
+
+    message.style.color = isError
+      ? "#a32121"
+      : "#137333";
+
+    message.hidden = false;
+  }
+
+  form.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+    if (!CLAIM_REGISTRATION_ENABLED) {
+      showClaimMessage(
+        "Live claim registration is not yet enabled.",
+        true
+      );
+      return;
+    }
+
+    const memberId = memberSelect.value;
+
+    const dateOfDeath = document.getElementById(
+      "date-of-death"
+    ).value;
+
+    const notes = document.getElementById(
+      "claim-notes"
+    ).value.trim();
+
+    if (!memberId || !dateOfDeath) {
+
+      showClaimMessage(
+        "Please select a member and enter the date of death.",
+        true
+      );
+
+      return;
+    }
+
+    const memberName =
+      memberSelect.options[
+        memberSelect.selectedIndex
+      ].textContent;
+
+    const confirmed = window.confirm(
+      "Confirm bereavement claim registration for:\n\n" +
+      memberName +
+      "\n\nDate of death: " + dateOfDeath +
+      "\nTarget benefit: €15,000.00" +
+      "\n\nThis registers a claim for review only." +
+      "\nNo contributions will be activated."
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Registering...";
+
+    try {
+
+      const { data, error } = await supabase.rpc(
+        "register_bereavement_claim",
+        {
+          p_member_id: memberId,
+          p_date_of_death: dateOfDeath,
+          p_admin_notes: notes || null
+        }
+      );
+
+      if (error) {
+        throw error;
+      }
+
+      form.reset();
+
+      showClaimMessage(
+        "Claim registered successfully. Reference: " +
+        data
+      );
+
+      // Refresh dashboard after successful registration
+      try {
+        await initializeDashboard();
+      } catch (refreshError) {
+        console.error(refreshError);
+      }
+
+    } catch (error) {
+
+      console.error(
+        "Claim registration error:",
+        error
+      );
+
+      showClaimMessage(
+        error.message || "Unable to register claim.",
+        true
+      );
+
+    } finally {
+
+      button.disabled = !CLAIM_REGISTRATION_ENABLED;
+      button.textContent = "Register Claim";
+
+    }
+
+  });
+}
+
+
 async function initializeDashboard() {
 
   try {
@@ -242,4 +386,7 @@ async function initializeDashboard() {
   }
 }
 
+
+initializeClaimForm();
 initializeDashboard();
+
