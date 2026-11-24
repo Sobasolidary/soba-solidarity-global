@@ -90,6 +90,76 @@ function displayContributions(contributions) {
   setText("total-paid", euro.format(totalPaid));
 }
 
+-- SOBA Solidarity Global Group
+-- Step 7D.1: Eligible Members for Bereavement Claims
+
+BEGIN;
+
+CREATE OR REPLACE FUNCTION
+public.get_bereavement_eligible_members()
+
+RETURNS TABLE (
+    member_id BIGINT,
+    membership_number TEXT,
+    full_name TEXT
+)
+
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+
+AS $$
+BEGIN
+
+    -- Verify administrator authorization
+    IF auth.uid() IS NULL OR NOT EXISTS (
+        SELECT 1
+        FROM public.admin_users a
+        WHERE a.user_id = auth.uid()
+    ) THEN
+        RAISE EXCEPTION
+            'Administrator access required';
+    END IF;
+
+    -- Retrieve active and verified members
+    RETURN QUERY
+
+    SELECT
+        m.id::BIGINT,
+        m.membership_number::TEXT,
+        m.full_name::TEXT
+
+    FROM public.members m
+
+    WHERE m.status = 'active'
+      AND m.membership_status = 'active'
+      AND m.verification_status = 'verified'
+      AND m.payment_status = 'paid'
+      AND m.activated_at IS NOT NULL
+
+      AND NOT EXISTS (
+          SELECT 1
+          FROM public.bereavement_claims b
+          WHERE b.member_id = m.id
+            AND b.claim_status <> 'rejected'
+      )
+
+    ORDER BY m.full_name;
+
+END;
+$$;
+
+-- Restrict function execution
+REVOKE ALL ON FUNCTION
+public.get_bereavement_eligible_members()
+FROM PUBLIC, anon, authenticated;
+
+GRANT EXECUTE ON FUNCTION
+public.get_bereavement_eligible_members()
+TO authenticated;
+
+COMMIT;
+
 async function initializeDashboard() {
   try {
     // 1. Verify the current authenticated user
@@ -155,11 +225,16 @@ async function initializeDashboard() {
     }
 
     // 5. Display the authorized information
+    
     displayClaims(claims || []);
     displayContributions(contributions || []);
 
-    loading.hidden = true;
-    dashboard.classList.remove("hidden");
+    // Load eligible SOBA members
+   await loadEligibleMembers();
+
+   loading.hidden = true;
+   dashboard.classList.remove("hidden");
+
 
   } catch (error) {
     console.error("Solidarity dashboard error:", error);
