@@ -103,6 +103,64 @@
       padding: 25px;
       color: #555;
     }
+
+  
+/* Bereavement Claim Registration Form */
+
+#claim-form {
+  display: grid;
+  gap: 12px;
+  max-width: 700px;
+}
+
+#claim-form label {
+  font-weight: bold;
+  color: #12263f;
+}
+
+#claim-form input,
+#claim-form select,
+#claim-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccd4dd;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+#claim-form input[readonly] {
+  background: #edf2f7;
+  color: #12263f;
+}
+
+#register-claim-button {
+  background: #12263f;
+  color: white;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#register-claim-button:hover {
+  background: #d7aa4b;
+  color: #12263f;
+}
+
+#register-claim-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#claim-message {
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+}
+
   </style>
 </head>
 
@@ -144,6 +202,96 @@
         <span>Total Contributions Paid</span>
       </div>
     </div>
+
+<!-- Bereavement Claim Registration -->
+
+<section class="panel">
+
+  <h2>Register Bereavement Claim</h2>
+
+  <p>
+    Register a bereavement claim for review.
+    Registration does not approve the claim
+    or activate member contributions.
+  </p>
+
+  <div id="claim-message"
+       role="status"
+       hidden>
+  </div>
+
+  <form id="claim-form">
+
+    <label for="claim-member">
+      Deceased member
+    </label>
+
+    <select id="claim-member" required>
+      <option value="">
+        Select registered SOBA member
+      </option>
+    </select>
+
+    <label for="date-of-death">
+      Date of death
+    </label>
+
+    <input
+      type="date"
+      id="date-of-death"
+      required
+    >
+
+    <label for="benefit-amount">
+      Target bereavement benefit
+    </label>
+
+    <input
+      type="text"
+      id="benefit-amount"
+      value="€15,000.00"
+      readonly
+    >
+
+    <label for="payment-period">
+      Contribution payment period
+    </label>
+
+    <input
+      type="text"
+      id="payment-period"
+      value="14 calendar days"
+      readonly
+    >
+
+    <p>
+      The payment period begins following
+      the official bereavement announcement.
+    </p>
+
+    <label for="claim-notes">
+      Administrator notes
+    </label>
+
+    <textarea
+      id="claim-notes"
+      rows="4"
+      maxlength="2000"
+      placeholder="Enter relevant claim information..."
+    ></textarea>
+
+    <button
+      type="submit"
+      id="register-claim-button"
+      disabled
+    >
+      Register Claim
+    </button>
+
+  </form>
+
+</section>
+<!-- End Bereavement Claim Registration -->
 
     <section class="panel">
       <h2>Bereavement Claims</h2>
